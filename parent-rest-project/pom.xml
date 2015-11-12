@@ -4,4 +4,276 @@
   <artifactId>parent-rest-project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  
+  <name>parent-rest-project</name>
+  <url>http://maven.apache.org</url>
+  <description>The parent (super) POM</description>
+
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<project.organizationName>I.D.S. DialogSysteme GmbH</project.organizationName>
+  	
+  	<project.inceptionYear>2015</project.inceptionYear>
+  	
+  	<osgi.core.version>5.0.0</osgi.core.version>
+  	<!-- Fix to pass a property to subprocess test:test in release:prepare -->
+  	<release.arguments />
+  </properties>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  
+  <scm>
+    <tag>parent-rest-project-0.0.1</tag>
+  	<url>scm:git:https://github.com/nordapp/rest</url>
+  	<connection>scm:git:https://github.com/nordapp/rest</connection>
+  	<developerConnection>scm:git:https://github.com/nordapp/rest</developerConnection>
+  </scm>
+  
+  <developers>
+    <developer>
+      <id>Stefan-Hauptmann</id>
+      <name>Stefan Hauptmann</name>
+      <url>http://www.nordapp.org</url>
+      <organization>I.D.S. DialogSysteme GmbH</organization>
+      <organizationUrl>http://www.nordapp.org</organizationUrl>
+    </developer>
+  </developers>
+      
+  <build>
+	<plugins>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.3</version>
+			<configuration>
+				<target>1.6</target>
+				<source>1.6</source>
+			</configuration>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.9</version>
+			<configuration>
+				<forkMode>once</forkMode>
+			</configuration>
+		</plugin>
+		
+		<plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+		   <artifactId>maven-deploy-plugin</artifactId>
+		   <version>2.8.2</version>
+		   <configuration>
+		      <skip>true</skip>
+		   </configuration>
+		</plugin>
+		
+		<plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+		   <artifactId>maven-release-plugin</artifactId>
+		   <version>2.5.1</version>
+		   <configuration>
+			  <checkModificationExcludes>
+				 <checkModificationExclude>License.txt</checkModificationExclude>
+			  </checkModificationExcludes>
+  		      <!-- Fix to pass a property to subprocess test:test in release:prepare -->
+  		      <arguments>${release.arguments}</arguments>
+		   </configuration>
+    	</plugin>
+		
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>versions-maven-plugin</artifactId>
+		</plugin>
+		
+		<plugin>
+		   <groupId>org.sonatype.plugins</groupId>
+		   <artifactId>nexus-staging-maven-plugin</artifactId>
+		   <version>1.6.3</version>
+		   <extensions>true</extensions>
+		   <configuration>
+		   	 <serverId>ossrh</serverId>
+		   	 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+		   	 <autoReleaseAfterClose>true</autoReleaseAfterClose>
+		   </configuration>
+		</plugin>
+		
+	</plugins>
+	
+	<pluginManagement>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.8</version>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-gpg-plugin</artifactId>
+			    <version>1.6</version>
+			</plugin>
+			
+		</plugins>
+	</pluginManagement>
+	
+  </build>
+  
+  <dependencyManagement>
+	  <dependencies>
+	  	
+	  	<!-- OSGi core -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		
+		<!-- Test -->
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.12</version>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.hamcrest</groupId>
+	      <artifactId>hamcrest-core</artifactId>
+	      <version>1.3</version>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.i3xx.eclipse.test</groupId>
+	      <artifactId>workspace</artifactId>
+	      <version>${test.workspace.version}</version>
+	      <scope>test</scope>
+	    </dependency>
+	  </dependencies>
+  </dependencyManagement>
+  
+  <distributionManagement>
+	<snapshotRepository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+    <repository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+	
+  </distributionManagement>
+  
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      
+      <build>
+        <plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<organizationName>${project.organizationName}</organizationName>
+					<inceptionYear>${project.inceptionYear}</inceptionYear>
+					<projectName>${project.name}</projectName>
+					<licenseName>apache_v2</licenseName>
+				</configuration>
+				<executions>
+					<execution>
+						<id>update-project-license</id>
+						<goals>
+							<goal>update-project-license</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>update-file-header</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<roots>
+								<root>src/main/java</root>
+								<root>src/test/java</root>
+							</roots>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-licenses</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+        
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-gpg-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>sign-artifacts</id>
+			      <phase>verify</phase>
+			      <goals>
+			        <goal>sign</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
 </project>
