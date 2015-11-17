@@ -1,6 +1,7 @@
 package org.i3xx.util.ramdisk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import org.i3xx.util.ramdisk.test.FileList;
 import org.i3xx.util.ramdisk.test.Worker;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FileThreadTest {
@@ -25,14 +27,19 @@ public class FileThreadTest {
 		MountPoint.unmount();
 	}
 
-	@Test
+	/**
+	 * One thread work, test result by file list
+	 * 
+	 * listFiles()
+	 */
+	@Ignore
 	public void testA() {
 		
 		List<FileList> words = new ArrayList<FileList>();
 		
 		for(int i=0;i<1;i++) {
 			FileList list = new FileList();
-			Worker work = new Worker(list, 1);
+			Worker work = new Worker(list, 1, 0);
 			Thread t = new Thread(work);
 			t.start();
 			
@@ -61,14 +68,21 @@ public class FileThreadTest {
 		assertEquals( counter.size(), 991);
 	}
 
-	@Test
+	/**
+	 * One thread work, test result by path list.
+	 * 
+	 * Note: A sleep needs 0.7ms minimum to awake.
+	 * 
+	 * list()
+	 */
+	@Ignore
 	public void testB() {
 		
 		List<FileList> words = new ArrayList<FileList>();
 		
 		for(int i=0;i<1;i++) {
 			FileList list = new FileList();
-			Worker work = new Worker(list, 1);
+			Worker work = new Worker(list, 0, 700);
 			Thread t = new Thread(work);
 			t.start();
 			
@@ -101,12 +115,23 @@ public class FileThreadTest {
 	public void testC() {
 		
 		List<FileList> words = new ArrayList<FileList>();
+		List<Worker> workers = new ArrayList<Worker>();
 		
 		FileList list = new FileList();
-		words.add(list);
+		List<String> ref = list.copy();
+		FileList[] sprList = list.spread(40);
 		
-		for(int i=0;i<5;i++) {
-			Worker work = new Worker(list, 1);
+		for(int i=0;i<sprList.length;i++) {
+			words.add(sprList[i]);
+		}
+		
+		long start = System.currentTimeMillis();
+		
+		int k=0;
+		for(int i=0;i<40;i++) {
+			k=k<3?k+1:0;
+			Worker work = new Worker(sprList[i], 0, 0);
+			workers.add(work);
 			Thread t = new Thread(work);
 			t.start();
 		}
@@ -122,15 +147,27 @@ public class FileThreadTest {
 				n += words.get(i).size();
 			}
 			
-			if(n==0)
+			if(n==0) {
 				break;
+			}
 		}//for
+		
+		long end = System.currentTimeMillis();
+		System.out.println(end-start+" - "+ref.size());
+		
+		//Assume the list is empty
+		//assertEquals(list.size(), 0);
+		
+		//Assume each worker has finished
+		for(Worker w : workers) {
+			assertFalse( w.getCont() );
+		}
 		
 		Counter counter = new Counter();
 		watchB(new File(MountPoint.getRoot()), counter);
 		
 		//990 nodes + root
-		assertEquals( counter.size(), 991);
+		assertEquals( counter.size(), ref.size()+1);
 	}
 	
 	/**
@@ -180,6 +217,8 @@ public class FileThreadTest {
 		public void count(File file) {
 			if(file.exists())
 				counter.add(file.getName());
+			else
+				System.err.println("Counter is missing ::>"+file.getAbsolutePath());
 		}
 	}//class
 

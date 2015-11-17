@@ -1,8 +1,8 @@
 package org.i3xx.util.ramdisk.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class FileList {
 	
@@ -20,22 +20,63 @@ public class FileList {
 	
 	private final List<String> list;
 	
-	private final Random rand;
-	
 	public FileList() {
 		
-		//11 * 9 * 10 = 990
+		//11 * 9 * 10 * 10 * 10 = 990000
 		list = new ArrayList<String>();
-		rand = new Random();
 		
 		for(int h=0;h<COLORS.length;h++) {
 			for(int i=0;i<THINGS.length;i++){
 				for(int j=0;j<NUMBERS.length;j++){
-					list.add(COLORS[h]+"_"+THINGS[i]+NUMBERS[j]);
+					for(int k=0;k<NUMBERS.length;k++){
+						for(int m=0;m<NUMBERS.length;m++){
+							for(int n=0;n<NUMBERS.length;n++){
+								list.add(COLORS[h]+"_"+THINGS[i]+"_"+NUMBERS[j]+NUMBERS[k]+NUMBERS[m]+NUMBERS[n]);
+							}//for
+						}//for
+					}//for
 				}//for
 			}//for
 		}//for
 		
+		Collections.shuffle(list);
+	}
+	
+	private FileList(boolean f) {
+		list = new ArrayList<String>();
+	}
+	
+	/**
+	 * @return
+	 */
+	public synchronized List<String> copy() {
+		List<String> n = new ArrayList<String>();
+		n.addAll(list);
+		
+		return n;
+	}
+	
+	/**
+	 * @param num
+	 * @return
+	 */
+	public synchronized FileList[] spread(int num) {
+		FileList[] resl = new FileList[num];
+		for(int i=0;i<resl.length;i++) {
+			resl[i] = new FileList(true);
+		}
+		
+		int n = 0;
+		while(n<list.size()) {
+			for(int i=0;i<resl.length;i++) {
+				resl[i].list.add( list.get(n++) );
+				
+				if(n==list.size())
+					break;
+			}//for
+		}//while
+		
+		return resl;
 	}
 	
 	/**
@@ -44,9 +85,8 @@ public class FileList {
 	public synchronized String getWord() {
 		if(list.isEmpty())
 			return null;
-		
-		int r = rand.nextInt(list.size());
-		return list.remove(r);
+			
+		return list.remove(0);
 	}
 	
 	/**
