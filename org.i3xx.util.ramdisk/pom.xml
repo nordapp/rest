@@ -51,9 +51,10 @@
 					
 					<Export-Package>
 						org.i3xx.util.ramdisk,
+						org.i3xx.util.ramdisk.io,
+						org.i3xx.util.ramdisk.handler,
 					</Export-Package>
 					<Import-Package>
-						org.i3xx.util.ramdisk,
 						org.slf4j,
 					</Import-Package>
 					<Private-Package />

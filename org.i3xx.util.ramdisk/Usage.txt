@@ -1,0 +1,62 @@
+To use the protocol 'ramdisk:' you need to install a protocol handler.
+
+The protocol handler is a class containing the code above.
+
+<java>
+
+public class Handler extends URLStreamHandler {
+
+	protected URLConnection openConnection(URL u) throws IOException {
+		return new RamdiskImplURLConnection(u);
+	}
+}
+
+</java>
+
+Put this class to a package named 'org.somewhat.ramdisk'. It is urgent to
+end the package name by the word 'ramdisk' after the last dot '.'. Then put
+the package name to the system property 'java.protocol.handler.pkgs'.
+
+The package 'somewhat' contains all your protocol handler each in it's
+own subdirectory. In our case this is:
+
+<java>
+
+System.setProperty( "java.protocol.handler.pkgs", "org.somewhat" );
+MountPoint.mount();
+
+</java>
+
+After than you can use the protocol 'ramdisk:' in a Java-URL.
+
+<java>
+
+URL url = new URL("ramdisk://localhost/test/MyFile");
+
+</java>
+
+If you do not need the 'ramdisk:' protocol, you can use it simple with the
+File object as a nonblocking threadsafe ram-file-system.
+
+<java>
+
+import org.i3xx.util.ramdisk.File;
+
+...
+
+MountPoint.mount();
+
+...
+
+File file = new File("/path/more-path/filename");
+file.getParent().mkdirs();
+file.create();
+
+...
+
+MountPoint.unmount();
+
+</java>
+
+See the JUnit tests for more details.
+
