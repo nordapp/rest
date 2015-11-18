@@ -113,22 +113,21 @@ public class FileThreadTest {
 
 	@Test
 	public void testC() {
+		final int num = 4;
 		
 		List<FileList> words = new ArrayList<FileList>();
 		List<Worker> workers = new ArrayList<Worker>();
 		
 		FileList list = new FileList();
 		List<String> ref = list.copy();
-		FileList[] sprList = list.spread(40);
+		FileList[] sprList = list.spread(num);
 		
 		for(int i=0;i<sprList.length;i++) {
 			words.add(sprList[i]);
 		}
 		
-		long start = System.currentTimeMillis();
-		
 		int k=0;
-		for(int i=0;i<40;i++) {
+		for(int i=0;i<num;i++) {
 			k=k<3?k+1:0;
 			Worker work = new Worker(sprList[i], 0, 0);
 			workers.add(work);
@@ -151,9 +150,6 @@ public class FileThreadTest {
 				break;
 			}
 		}//for
-		
-		long end = System.currentTimeMillis();
-		System.out.println(end-start+" - "+ref.size());
 		
 		//Assume the list is empty
 		//assertEquals(list.size(), 0);

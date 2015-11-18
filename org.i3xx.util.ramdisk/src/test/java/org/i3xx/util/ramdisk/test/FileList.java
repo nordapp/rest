@@ -28,13 +28,14 @@ public class FileList {
 		for(int h=0;h<COLORS.length;h++) {
 			for(int i=0;i<THINGS.length;i++){
 				for(int j=0;j<NUMBERS.length;j++){
-					for(int k=0;k<NUMBERS.length;k++){
-						for(int m=0;m<NUMBERS.length;m++){
-							for(int n=0;n<NUMBERS.length;n++){
-								list.add(COLORS[h]+"_"+THINGS[i]+"_"+NUMBERS[j]+NUMBERS[k]+NUMBERS[m]+NUMBERS[n]);
-							}//for
-						}//for
-					}//for
+					list.add(COLORS[h]+"_"+THINGS[i]+"_"+NUMBERS[j]);
+					//for(int k=0;k<NUMBERS.length;k++){
+					//	for(int m=0;m<NUMBERS.length;m++){
+					//		for(int n=0;n<NUMBERS.length;n++){
+					//			list.add(COLORS[h]+"_"+THINGS[i]+"_"+NUMBERS[j]+NUMBERS[k]+NUMBERS[m]+NUMBERS[n]);
+					//		}//for
+					//	}//for
+					//}//for
 				}//for
 			}//for
 		}//for
