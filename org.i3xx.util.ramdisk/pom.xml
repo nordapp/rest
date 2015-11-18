@@ -77,6 +77,12 @@
   				<include>LICENSE/**/*.*</include>
   			</includes>
   		</resource>-->
+  		<resource>
+  			<directory></directory>
+  			<includes>
+  				<include>Usage.txt</include>
+  			</includes>
+  		</resource>
   	</resources>
   </build>
 
