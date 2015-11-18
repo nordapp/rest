@@ -35,6 +35,7 @@
   
   <build>
 	<plugins>
+		
 		<plugin>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>maven-bundle-plugin</artifactId>
@@ -49,17 +50,17 @@
 					<Bundle-Version>${project.version}</Bundle-Version>
 					
 					<Export-Package>
-						<!-- org.i3xx.util.ramdisk.annotation, -->
+						org.i3xx.util.ramdisk,
 					</Export-Package>
 					<Import-Package>
-						<!-- org.osgi.framework, -->
+						org.i3xx.util.ramdisk,
 						org.slf4j,
 					</Import-Package>
 					<Private-Package />
-					<!--<Export-Service></Export-Service>-->
 				</instructions>
 			</configuration>
 		</plugin>
+		
 	</plugins>
 	
   	<resources>
