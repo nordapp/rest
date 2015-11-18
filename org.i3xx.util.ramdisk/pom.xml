@@ -21,7 +21,7 @@
   	<relativePath>../parent-rest-project</relativePath>
     <groupId>org.i3xx.parent</groupId>
     <artifactId>parent-rest-project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
   
   <properties>
