@@ -53,6 +53,7 @@
 						org.i3xx.util.hateoas,
 					</Export-Package>
 					<Import-Package>
+						com.google.gson,
 						org.slf4j,
 					</Import-Package>
 					<Private-Package />
@@ -79,6 +80,11 @@
   </build>
 
   <dependencies>
+  	
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+	</dependency>
     
 	<dependency>
 		<groupId>log4j</groupId>
