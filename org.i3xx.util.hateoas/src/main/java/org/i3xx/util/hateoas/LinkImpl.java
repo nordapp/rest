@@ -111,9 +111,9 @@ public class LinkImpl implements LinkHeader.Link {
 	}
 	
 	/**
-	 * Parameterize the resource
+	 * Parameterize the resource, can replace '{}' only.
 	 * 
-	 * @param strings The parameters as tuples
+	 * @param strings The parameters as values
 	 */
 	public void parameterize(String... strings) {
 		StringBuffer buf = new StringBuffer();
@@ -192,8 +192,10 @@ public class LinkImpl implements LinkHeader.Link {
 	}
 	
 	/**
+	 * Returns a new Map filled with the arguments passed as key/value tuples.
+	 * 
 	 * @param params The parameter map (or null to create one)
-	 * @param args The key value pairs
+	 * @param args The key value tuples
 	 * @return The parameter map
 	 */
 	public Map<String, String> getParameterMap(Map<String, String> params, String... args) {
@@ -209,9 +211,9 @@ public class LinkImpl implements LinkHeader.Link {
 	}
 	
 	/**
-	 * Parameterize the resource
+	 * Parameterize the resource and replaces named parameter in the URL
 	 * 
-	 * @param params
+	 * @param params The parameter map
 	 */
 	public void parameterize(Map<String, String> params) {
 		
