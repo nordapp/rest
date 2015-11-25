@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.i3xx.util</groupId>
-  <artifactId>org.i3xx.util.rna</artifactId>
+  <artifactId>org.i3xx.util.ctree</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
-  <name>NordApp OfficeBase :: RNA</name>
+  <name>NordApp Tools :: CTree</name>
   <packaging>bundle</packaging>
-  <description>Provides computed RNA support.</description>
+  <description>Provides a simple tree configuration.</description>
   
   <licenses>
     <license>
@@ -29,8 +29,8 @@
   </properties>  
   
   <scm>
-  	<developerConnection>scm:git:https://github.com/nordapp/rna</developerConnection>
-  	<tag>org.i3xx.rna-0.0.0</tag>
+  	<developerConnection>scm:git:https://github.com/nordapp/rest</developerConnection>
+  	<tag>org.i3xx.rest-0.0.0</tag>
   </scm>
   
   <build>
@@ -50,16 +50,10 @@
 					<Bundle-Version>${project.version}</Bundle-Version>
 					
 					<Export-Package>
-						<!--org.i3xx.util.rna,-->
-						org.i3xx.util.rna.core,
-						org.i3xx.util.rna.engine.json,
-						org.i3xx.util.rna.engine.server,
-						org.i3xx.util.rna.engine,
-						org.i3xx.util.rna.impl,
+						org.i3xx.util.ctree,
 					</Export-Package>
 					<Import-Package>
 						com.google.gson,
-						org.apache.commons.codec.binary,
 						org.slf4j,
 					</Import-Package>
 					<Private-Package />
@@ -82,37 +76,32 @@
   				<include>LICENSE/**/*.*</include>
   			</includes>
   		</resource>-->
-  		<resource>
-  			<directory>src/main/resources</directory>
-  			<includes>
-  				<include>/**/*.*</include>
-  			</includes>
-  		</resource>
-  		<resource>
-  			<directory></directory>
-  			<includes>
-  				<include>Usage.txt</include>
-  			</includes>
-  		</resource>
   	</resources>
   </build>
 
   <dependencies>
-  
+  	
 	<dependency>
-		<groupId>commons-codec</groupId>
-		<artifactId>commons-codec</artifactId>
+		<groupId>org.i3xx.util</groupId>
+		<artifactId>org.i3xx.util.basic</artifactId>
+		<version>0.1.2</version>
 	</dependency>
+  	
 	<dependency>
-		<groupId>org.apache.jcs</groupId>
-		<artifactId>jcs</artifactId>
+		<groupId>xerces</groupId>
+		<artifactId>xerces</artifactId>
+	</dependency>
+  	
+	<dependency>
+		<groupId>xalan</groupId>
+		<artifactId>xalan</artifactId>
 	</dependency>
     
 	<dependency>
 		<groupId>com.google.code.gson</groupId>
 		<artifactId>gson</artifactId>
 	</dependency>
-	
+    
 	<dependency>
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>
