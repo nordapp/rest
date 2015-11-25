@@ -177,6 +177,13 @@
 			<version>2.3.1</version>
 		</dependency>
 		
+		<!-- HAZELCAST core -->
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast</artifactId>
+			<version>3.1</version>
+		</dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>log4j</groupId>
