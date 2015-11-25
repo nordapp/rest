@@ -50,13 +50,29 @@
 					<Bundle-Version>${project.version}</Bundle-Version>
 					
 					<Export-Package>
+						org.i3xx.util.core,
+						org.i3xx.util.core.xml,
 						org.i3xx.util.ctree,
+						org.i3xx.util.ctree.core,
+						org.i3xx.util.ctree.func,
+						org.i3xx.util.ctree.impl,
+						org.i3xx.util.ctree.linker,
+						org.i3xx.util.ctree.parser,
+						org.i3xx.util.ctree.xml
 					</Export-Package>
 					<Import-Package>
 						com.google.gson,
+						org.apache.regexp,
+						org.apache.xerces.dom,
+						org.apache.xerces.parsers,
+						org.apache.xpath,
+						org.i3xx.util.basic.io,
 						org.slf4j,
+						org.w3c.dom,
+						org.xml.sax,
 					</Import-Package>
-					<Private-Package />
+					<Private-Package>
+					</Private-Package>
 				</instructions>
 			</configuration>
 		</plugin>
@@ -89,7 +105,7 @@
   	
 	<dependency>
 		<groupId>xerces</groupId>
-		<artifactId>xerces</artifactId>
+		<artifactId>xercesImpl</artifactId>
 	</dependency>
   	
 	<dependency>
