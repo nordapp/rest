@@ -9,9 +9,13 @@ import org.i3xx.util.ctree.core.IResolveRaw;
 import org.i3xx.util.ctree.core.IResolverFactory;
 import org.i3xx.util.ctree.core.IVisitor;
 import org.i3xx.util.ctree.linker.LinkedResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class NodeParser implements IVisitor {
+	
+	private final static Logger logger = LoggerFactory.getLogger(NodeParser.class);
 	
 	private IResolverFactory factory;
 	private Pattern patternA;
@@ -75,6 +79,9 @@ public class NodeParser implements IVisitor {
 		//Charset 0xFFnn -> Protection
 		//Unprotect
 		
+		if(logger.isTraceEnabled())
+			logger.trace("The param of {} is '{}'", node.getFullName(), param);
+		
 		//
 		// The root node has neither a resolver nor a value
 		//
@@ -91,6 +98,10 @@ public class NodeParser implements IVisitor {
 			//The XML style link
 			int lpos = 0;
 			Matcher m = patternA.matcher(param);
+			
+			if(logger.isTraceEnabled())
+				logger.trace("The NodeParser matches '{}' {}", param, m.find());
+			
 			while(m.find()){
 				if(resolver==null)
 					resolver = factory.getResolver(IResolverFactory.TYPE_LINK);
@@ -112,6 +123,10 @@ public class NodeParser implements IVisitor {
 			//The text style link
 			int lpos = 0;
 			Matcher m = patternB.matcher(param);
+			
+			if(logger.isTraceEnabled())
+				logger.trace("The NodeParser matches '{}' {}", param, m.find());
+			
 			while(m.find()){
 				if(resolver==null)
 					resolver = factory.getResolver(IResolverFactory.TYPE_LINK);

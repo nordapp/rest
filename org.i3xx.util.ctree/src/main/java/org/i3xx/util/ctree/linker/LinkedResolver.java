@@ -9,9 +9,13 @@ import org.i3xx.util.ctree.IConfNode;
 import org.i3xx.util.ctree.core.IResolveRaw;
 import org.i3xx.util.ctree.core.IValueItem;
 import org.i3xx.util.ctree.core.ResolverException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public final class LinkedResolver implements IResolveRaw, Serializable, Cloneable {
+	
+	private static final Logger logger = LoggerFactory.getLogger(LinkedResolver.class);
 	
 	/**
 	 * 
@@ -49,6 +53,7 @@ public final class LinkedResolver implements IResolveRaw, Serializable, Cloneabl
 	 */
 	public void addPath(String path) {
 		this.paths.add(path);
+		logger.trace("Adds a path {}", path);
 	}
 
 	/**
@@ -56,6 +61,7 @@ public final class LinkedResolver implements IResolveRaw, Serializable, Cloneabl
 	 */
 	public void removePath(String path) {
 		this.paths.remove(path);
+		logger.trace("Removes a path {}", path);
 	}
 	
 	/**
@@ -83,6 +89,7 @@ public final class LinkedResolver implements IResolveRaw, Serializable, Cloneabl
 		}
 		
 		values[i] = new LinkedItem(dest);
+		logger.trace("Moves a path {}", path);
 	}
 	
 	/* (non-Javadoc)
@@ -97,6 +104,10 @@ public final class LinkedResolver implements IResolveRaw, Serializable, Cloneabl
 			buffer.append(values[i].getValue());
 		}
 		String value = buffer.toString();
+		
+		if(logger.isTraceEnabled())
+			logger.trace("Resolves name: {}, value: {} => '{}'", node.name(), node.rawValue(), value);
+		
 		return value;
 	}
 }

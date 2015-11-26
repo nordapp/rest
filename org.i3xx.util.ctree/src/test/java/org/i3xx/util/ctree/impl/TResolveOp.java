@@ -6,17 +6,18 @@ package org.i3xx.util.ctree.impl;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.URL;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.i3xx.util.ctree.ConfNode;
 import org.i3xx.util.ctree.IConfNode;
-import org.i3xx.util.ctree.impl.LinkableResolverFactory;
-import org.i3xx.util.ctree.impl.NodeHandler;
-import org.i3xx.util.ctree.impl.NodeParser;
-import org.i3xx.util.ctree.impl.VisitorWalker;
 import org.i3xx.util.ctree.linker.Linker;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -24,7 +25,19 @@ import org.junit.Test;
  *
  */
 public class TResolveOp {
-
+	
+	/**
+	 * @throws Exception
+	 */
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		URL url = ClassLoader.getSystemClassLoader().getResource("Log4j.properties");
+		PropertyConfigurator.configure(url);
+		
+		Logger logger = LoggerFactory.getLogger(TResolveOp.class);
+		logger.info("The logger started {}", url);
+	}
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -69,15 +82,29 @@ public class TResolveOp {
 		
 		hdl.addconf("Text", "Resolved: Text");
 		
+		//This is a normal configuration entry
 		hdl.addconf("test.f1", "Normaler Text");
+		//This is a normal configuration entry
 		hdl.addconf("test.f2", "Text");
-		hdl.addconf("test.f3", "Normaler [test.f2]");
+		//This is a configuration entry with a link to another entry
+		hdl.addconf("test.f3", Protector.wrap("Normaler [test.f2]") );
+		//This is a normal configuration entry
 		hdl.addconf("test.f4", "Normaler");
-		hdl.addconf("test.f5", "[test.f4] [test.f2]");
-		hdl.addconf("test.f6", "[test.f5->test.f8]");
-		hdl.addconf("test.f7", "[test.f8]");
-		hdl.addconf("test.f10", "[*.f5->*.f11]");
-		hdl.addconf("test.f12", "[test.f11]");
+		//This is a configuration entry with two links to another entry
+		//you can use as many as you need
+		hdl.addconf("test.f5", Protector.wrap("[test.f4] [test.f2]") );
+		//This is a configuration entry that copies the value from
+		//'test.f5' to 'test.f8'
+		hdl.addconf("test.f6", Protector.wrap("[test.f5->test.f8]") );
+		//This is a configuration entry with a link to another entry
+		//(uses the copy of 'test.f5' as a link
+		hdl.addconf("test.f7", Protector.wrap("[test.f8]") );
+		//This is a configuration entry that copies everything matching
+		//'*.f5' to '*.f11'
+		hdl.addconf("test.f10", Protector.wrap("[*.f5->*.f11]") );
+		//This is a configuration entry with a link to another entry
+		//(uses the copy of 'test.f5' as a link
+		hdl.addconf("test.f12", Protector.wrap("[test.f11]") );
 		
 		//
 		//This doesn't work because the regexp of NodeParser doesn't
@@ -107,6 +134,88 @@ public class TResolveOp {
 		assertEquals("Normaler Text", hdl.getParam("test.f12"));
 		
 		//print(root);
+	}
+	
+	@Test
+	public void testLinks() throws IOException {
+		
+		IConfNode root = new ConfNode();
+		NodeHandler hdl = new NodeHandler(root, null);
+		
+		hdl.addconf("test.src.f1", "red");
+		hdl.addconf("test.src.f2", "yellow");
+		hdl.addconf("test.src.f3", "green");
+		hdl.addconf("test.src.f4", "blue");
+		hdl.addconf("test.src.f5", "violet");
+		
+		//
+		// The argument '->' may not have any space inside.
+		// The '*' is replaced by the part of the node's path 'test.dest'
+		//
+		
+		hdl.addconf("test.dest.1", Protector.wrap("[test.src->*.*]") );
+		hdl.addconf("test.dest.2", Protector.wrap("[test.src->*.copy]") );
+		hdl.addconf("test.dest.3", Protector.wrap("[test.src->copy.*]") );
+		
+		//
+		// You can do bad things - be careful,
+		// because nobody including yourself understands your configuration.
+		//
+		// It is not clear what 'test.dest.4' is doing
+		// It is not clear what 'test.dest.5' is doing
+		// If you use 'nodo.dest.f6' in your program, where the f*** is this defined.
+		//
+		hdl.addconf("test.dest.vararg", Protector.wrap("[test.src->nodo.*]") );
+		hdl.addconf("test.dest.4", Protector.wrap("[nodo.dest.f5->nodo.dest.f6]") );
+		hdl.addconf("test.dest.5", Protector.wrap("[test.dest.vararg]") );
+		
+		NodeParser parser = new NodeParser(new LinkableResolverFactory());
+		VisitorWalker<IConfNode> walker = new VisitorWalker<IConfNode>();
+		walker.setRoot(root);
+		walker.walk(parser);
+		
+		Linker linker = new Linker(root);
+		linker.process();
+		
+		//The origin nodes
+		assertEquals("red", hdl.getParam("test.src.f1"));
+		assertEquals("yellow", hdl.getParam("test.src.f2"));
+		assertEquals("green", hdl.getParam("test.src.f3"));
+		assertEquals("blue", hdl.getParam("test.src.f4"));
+		assertEquals("violet", hdl.getParam("test.src.f5"));
+		
+		//The copies
+		assertEquals("red", hdl.getParam("test.dest.f1"));
+		assertEquals("yellow", hdl.getParam("test.dest.f2"));
+		assertEquals("green", hdl.getParam("test.dest.f3"));
+		assertEquals("blue", hdl.getParam("test.dest.f4"));
+		assertEquals("violet", hdl.getParam("test.dest.f5"));
+		
+		assertEquals("red", hdl.getParam("test.copy.f1"));
+		assertEquals("yellow", hdl.getParam("test.copy.f2"));
+		assertEquals("green", hdl.getParam("test.copy.f3"));
+		assertEquals("blue", hdl.getParam("test.copy.f4"));
+		assertEquals("violet", hdl.getParam("test.copy.f5"));
+		
+		assertEquals("red", hdl.getParam("copy.dest.f1"));
+		assertEquals("yellow", hdl.getParam("copy.dest.f2"));
+		assertEquals("green", hdl.getParam("copy.dest.f3"));
+		assertEquals("blue", hdl.getParam("copy.dest.f4"));
+		assertEquals("violet", hdl.getParam("copy.dest.f5"));
+		
+		//It is there.
+		assertEquals("red", hdl.getParam("nodo.dest.f1"));
+		assertEquals("yellow", hdl.getParam("nodo.dest.f2"));
+		assertEquals("green", hdl.getParam("nodo.dest.f3"));
+		assertEquals("blue", hdl.getParam("nodo.dest.f4"));
+		assertEquals("violet", hdl.getParam("nodo.dest.f5"));
+		//It is there too.
+		assertEquals("violet", hdl.getParam("nodo.dest.f6"));
+		
+		//The command nodes
+		assertEquals("test.src->*.*", hdl.getParam("test.dest.1"));
+		assertEquals("test.src->*.copy", hdl.getParam("test.dest.2"));
+		assertEquals("test.src->copy.*", hdl.getParam("test.dest.3"));
 	}
 	
 	/*

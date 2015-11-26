@@ -34,6 +34,10 @@ public final class LinkedItem implements IValueItem, Serializable, Cloneable {
 	 * @see com.i3xx.util.ctree.IValueItem#getValue()
 	 */
 	public char[] getValue() {
+		//no conf node available
+		if(node==null)
+			return new char[0];
+		
 		String value = node.value();
 		return value==null ? new char[0] : value.toCharArray();
 	}

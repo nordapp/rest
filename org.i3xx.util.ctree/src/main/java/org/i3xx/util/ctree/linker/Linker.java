@@ -66,7 +66,7 @@ public class Linker extends VisitorWalker<IConfNode> {
 	public void process() {
 		final Linker lk = this;
 		walk( new IVisitor(){ 
-			public void visit(IConfNode node) { 
+			public void visit(IConfNode node) {
 				lk.visit(node);
 			}});
 	}
@@ -75,6 +75,9 @@ public class Linker extends VisitorWalker<IConfNode> {
 	 * @param node The node to visit
 	 */
 	private void visit(IConfNode node) {
+		if(logger.isTraceEnabled())
+			logger.trace("The linker visits: {}, resolver:{}", node.getFullName(), node.resolver()!=null);
+		
 		if(node.resolver() instanceof LinkedResolver){
 			LinkedResolver lr = (LinkedResolver)node.resolver();
 			IValueItem[] values = new IValueItem[lr.paths.size()];
@@ -108,10 +111,16 @@ public class Linker extends VisitorWalker<IConfNode> {
 				
 				if(path.startsWith("#")){
 					values[i] = new StringItem(path.substring(1));
+					if(logger.isDebugEnabled())
+						logger.debug("Visit string-item (text) node:{}, text:{}", path, values[i].toString());
 				}else if(resolverA.resolved()){
 					values[i] = new StringItem(path);
+					if(logger.isDebugEnabled())
+						logger.debug("Visit string-item (wild) node:{}, text:{}", path, values[i].toString());
 				}else if(resolverB.resolved()){
 					values[i] = new StringItem(path);
+					if(logger.isDebugEnabled())
+						logger.debug("Visit string-item (link) node:{}, text:{}", path, values[i].toString());
 				}else{
 					try{
 						IConfNode link = null;
@@ -128,16 +137,21 @@ public class Linker extends VisitorWalker<IConfNode> {
 							}//for
 						}//fi
 						values[i] = new LinkedItem(link);
+						if(logger.isDebugEnabled())
+							logger.debug("Visit link-item (link) node:{}, value:{}", path, values[i].getValue());
 						//NoSuchElementException
 						if(link==null){
 							logger.debug("Link not found: '{}'.", path);
 							values[i] = new StringItem(path);
+							if(logger.isDebugEnabled())
+								logger.debug("Visit string-item (null) node:{}, text:{}", path, values[i].toString());
 						}
 					}catch(Exception e){
-						logger.debug("Caution: Unable to resolve the link '{}'. Check the configuration.", path);
+						logger.debug("", e);
+						logger.info("Caution: Unable to resolve the link '{}'. Check the configuration.", path);
 						values[i] = new StringItem(path);
 					}
-				}
+				}//fi
 			}//for
 			lr.values = values;
 		}//fi

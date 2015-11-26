@@ -1,11 +1,16 @@
 package org.i3xx.util.ctree.func;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * @author Administrator
  *
  */
 public class VarNode implements IVarNode {
+	
+	private static final Logger logger = LoggerFactory.getLogger(VarNode.class);
 	
 	protected OP op;
 	protected String value;
@@ -148,6 +153,8 @@ public class VarNode implements IVarNode {
 			return value;
 		
 		//Println.debug("leaf="+isLeaf()+" op="+(op!=null)+" left="+(left!=null)+" right="+(right!=null));
+		if(logger.isDebugEnabled())
+			logger.debug("leaf:{}, op:{}, left:{}, right:{}", isLeaf(), (op!=null), (left!=null), (right!=null));
 		
 		switch(op){
 		case LINK:
@@ -184,15 +191,24 @@ public class VarNode implements IVarNode {
 					" right="+(left.getRight()==null || left.getRight().isLeaf() || left.getRight().getValue()==null)+
 					" op="+(left.getOp())+
 					" value="+left.getValue());*/
+			if(logger.isDebugEnabled())
+				logger.debug("got left: left:{}, right:{}, op:{}, value:{}",
+						(left.getLeft()==null || left.getLeft().isLeaf() || left.getLeft().getValue()==null),
+						(left.getRight()==null || left.getRight().isLeaf() || left.getRight().getValue()==null),
+						(left.getOp()), left.getValue()	);
 			
 			/*Println.debug("set and parse right: "+getRight().getValue());*/
 			right.parse();
-			
 			/*Println.debug("got right: left="+
 					(right.getLeft()==null || right.getLeft().isLeaf() || right.getLeft().getValue()==null)+
 					" right="+(right.getRight()==null || right.getRight().isLeaf() || right.getRight().getValue()==null)+
 					" op="+(right.getOp())+
 					" value="+right.getValue());*/
+			if(logger.isDebugEnabled())
+				logger.debug("got left: left:{}, right:{}, op:{}, value:{}",
+						(right.getLeft()==null || right.getLeft().isLeaf() || right.getLeft().getValue()==null),
+						(right.getRight()==null || right.getRight().isLeaf() || right.getRight().getValue()==null),
+						(right.getOp()), right.getValue()	);
 			
 		}else
 			
@@ -211,6 +227,7 @@ public class VarNode implements IVarNode {
 	public void resolve(IResolver resolver) {
 		//
 		//Println.debug("resolve: right="+right+" left="+left+" op="+op+" value="+value+" resolver="+resolver);
+		logger.debug("resolve right:{}, left:{}, op:{}, value:{}, resolver:{}", right, left, op, value, resolver);
 		if(isLeaf()){
 			//nothing to resolve but
 		}else if(isUnary()){
@@ -218,6 +235,8 @@ public class VarNode implements IVarNode {
 			resolver.resolve(this);
 		}else{
 			//Println.debug("resolve(2): leaf="+isLeaf()+" unary="+(op!=null?isUnary():"")+" op="+op+" value="+value+" resolver="+resolver);
+			if(logger.isDebugEnabled())
+				logger.debug("resolve leaf:{}, unary:{}, value:{}, resolver:{}", isLeaf(), (op!=null?isUnary():""), value, resolver);
 			//resolve value first
 			right.resolve(resolver);
 			//then resolve path

@@ -90,7 +90,7 @@ public class LinkResolver implements IResolver {
 	}
 
 	/**
-	 * Copies the values and avois double paths
+	 * Copies the values and avoids double paths
 	 * 
 	 * @param srcNode
 	 * @param destNode
@@ -124,6 +124,8 @@ public class LinkResolver implements IResolver {
                 continue;
 			}
 			node.value(value);
+			if(logger.isDebugEnabled())
+				logger.debug("Creates a new node src:{} key:{}, value:{}", srcPath, keyPath, value);
 			//Test node content by query if necessary
 			//Println.debug("++ key:"+keyPath+" value:"+value);
 			

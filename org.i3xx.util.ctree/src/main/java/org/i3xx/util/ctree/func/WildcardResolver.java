@@ -40,7 +40,7 @@ public class WildcardResolver implements IResolver {
 		//	Println.debug("AGR::"+node.getValue()+" op="+node.getOp()+" left="+node.getLeft()+" right="+node.getRight()+" resolve="+(!(!node.isLeaf() || node.getValue()==null || node.getOp()!=VarNode.OP.REPLACE)));
 		//}
 		if(logger.isDebugEnabled())
-			logger.debug("AGR::{} op={} left={} right={} resolve={}"+
+			logger.debug("AGR::{} op={} left={} right={} resolve={}",
 					node.getValue(), node.getOp(), node.getLeft(), node.getRight(),
 					(!(!node.isLeaf() || node.getValue()==null || node.getOp()!=VarNode.OP.REPLACE)));
 		
@@ -52,11 +52,20 @@ public class WildcardResolver implements IResolver {
 		
 		String[] paths = destName.split("\\.");
 		String[] parts = fullName.split("\\.");
+		
+		//wCard is the highest index of a part containing '*'
+		int wCard = 0;
+		for(int i=0;i<parts.length;i++) {
+			String part = parts[i];
+			if( part.contains("*") )
+				wCard = i;
+		}//for
+		
 		for(int i=0;i<parts.length;i++){
 			String part = parts[i];
 			//paths is too short - cannot match
 			if(i==paths.length){
-				//Println.debug("#1 "+fullName);
+				logger.trace("#0 {}",fullName);
 				printName(parts, node.getRight());
 				finished = false;
 				return;
@@ -64,14 +73,19 @@ public class WildcardResolver implements IResolver {
 			
 			String path = paths[i];
 			if(part.equals(path)){
+				logger.trace("#1 part:{}, path{}, destName:{}", part, path, destName);
 				continue;
 			}else if( part.contains("*") ){
-				//Println.debug("#2 "+part+" "+fullName+" "+destName);
+				logger.trace("#2 part:{}, path:{}, destName:{}", part, path, destName);
 				parts[i] = path;
+				continue;
+			}else if( i<wCard ){
+				//not the last part
+				logger.trace("#3 part:{}, path:{}, destName:{}", part, path, destName);
 				continue;
 			}else{
 				//doesn't match
-				//Println.debug("#3 "+fullName+" "+destName+" "+part+" "+path);
+				logger.trace("#4 part:{}, path:{}, destName:{}", part, path, destName);
 				printName(parts, node.getRight());
 				
 				//last part is not equals
