@@ -27,7 +27,7 @@ public class RefHandler {
 	 */
 	public IProxy updateReference(IProxy proxy, IBrick brick, String newValue, CCommandInstallProxy cmd) {
 	    
-        //Keine Wert�nderung, return
+        //no update of the value, return
         if(proxy!=null && proxy.isEqual(newValue)) {
         	if(brick instanceof IBrickData){
         		@SuppressWarnings("unchecked")
@@ -64,10 +64,10 @@ public class RefHandler {
         	}
         }
         
-        //Referenz auf neuen Proxy beschaffen
+        //Fetch the reference to the new proxy
         cmd.execute(brick); //finds a proxy or creates a new one
         IProxy newproxy = cmd.getProxy();
-        if(newproxy == null)       // keine Referenz gefunden, return
+        if(newproxy == null)       // no reference found, return
             return null;
         
         //FIXME
@@ -77,16 +77,16 @@ public class RefHandler {
         if(equalsA(proxy, newproxy))
         	return proxy;
         
-		// Gegenst�ck ist vom Typ int.
+		// int type.
 		if(proxy!=null)	{
-			//referenziertes Objekt muss Verweise auf das Proxy l�sen
-			proxy.removeProxy();	// Referenzz�hler verringern
-			brick.removeReference((IBrick)proxy); // Referenz aus Auflistung entfernen
-			proxy = null;			// Variable zur�cksetzen
+			//remove the reference to the proxy from the referenced object
+			proxy.removeProxy();	// decrease the reference counter
+			brick.removeReference((IBrick)proxy); // Remove the reference from the list
+			proxy = null;			// reset the variable
 		}
         
-		newproxy.addProxy();		 // Referenzz�hler erh�hen
-		brick.add((IBrick)newproxy); // Referenz der Auflistung hinzuf�gen
+		newproxy.addProxy();		 // increase the reference counter
+		brick.add((IBrick)newproxy); // add the reference
 		
 		// ### Fixed in CBrick.add(IBrick) ###
 		//proxy.parent(null)	// brick.add(proxy) setzt proxy.parent(brick)

@@ -65,9 +65,7 @@ public class CCommandInstallProxy extends CCommand
 				int i=0;
 				IBrick b = target;
 				while ( ( i < stmts.length ) && ( b == null ) ) {
-					//TODO implement this later if the database is ready
-					throw new UnsupportedOperationException("Brick update is not implemented.");
-					//b = UpdateQueryFactory.of(stmts[i++]).pick();
+					b = DbQuery.pick(stmts[i++]);
 				}
 				
 				if(b!=null){
