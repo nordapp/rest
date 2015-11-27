@@ -31,6 +31,9 @@ import org.i3xx.util.ctree.core.ResolverException;
  *  new value => node1.rawValue(String) => fire update event =>
  *  listener.update() => node2.reconf() => resolver.resolve(String) =>
  *  get the node (node1) and read the value from.
+ *  
+ *  It is assumed that one thread is reading the configuration and after
+ *  than the configuration is used by multiple threads. 
  */
 public class ConfNode implements IConfNode, Serializable
 {
@@ -38,9 +41,9 @@ public class ConfNode implements IConfNode, Serializable
 	private static final long serialVersionUID = 7778871132743356650L;
 	
 	/** The name index of the child nodes */
-	protected Map<String, IConfNode> nodes = null;
+	protected final Map<String, IConfNode> nodes;
 	/** The array of the child nodes */
-	protected ArrayList<IConfNode> nodix = null;
+	protected final ArrayList<IConfNode> nodix;
 	
 	/** The root of the node tree */
 	protected IConfNode root = null;
@@ -306,6 +309,13 @@ public class ConfNode implements IConfNode, Serializable
 	{
 		return (nodix.size() == 0);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.i3xx.util.ctree.IConfNode#hasChildNode(java.lang.String)
+	 */
+	public boolean hasChildNode(String name) {
+		return nodes.containsKey(name);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#size()
@@ -350,7 +360,7 @@ public class ConfNode implements IConfNode, Serializable
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#getChildNodes3()
 	 */
-	public IConfNode[] getChildNodes3()
+	public synchronized IConfNode[] getChildNodes3()
 	{
 		IConfNode[] nodes = new ConfNode[nodix.size()];
 		nodix.toArray(nodes);
@@ -397,16 +407,18 @@ public class ConfNode implements IConfNode, Serializable
 	 */
 	public void value(String newValue)
 	{
-		String oldValue = value();
-		this.value = newValue;
-		
-		fireUpdateEvent(oldValue);
+		synchronized(this) {
+			String oldValue = value();
+			this.value = newValue;
+			
+			fireUpdateEvent(oldValue);
+		}
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#value()
 	 */
-	public String value()
+	public synchronized String value()
 	{
 		try {
 			return resolver==null ? value : resolver.resolve(this);
@@ -418,7 +430,7 @@ public class ConfNode implements IConfNode, Serializable
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#rawValue()
 	 */
-	public String rawValue() {
+	public synchronized String rawValue() {
 		return value;
 	}
 	
@@ -594,13 +606,15 @@ public class ConfNode implements IConfNode, Serializable
 	 * @see com.i3xx.util.ctree.IConfNode#resolved(boolean)
 	 */
 	public void resolved(boolean resolved) {
-		this.resolved = resolved;
+		synchronized(this) {
+			this.resolved = resolved;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#resolved()
 	 */
-	public boolean resolved() {
+	public synchronized boolean resolved() {
 		return resolved;
 	}
 
@@ -608,13 +622,15 @@ public class ConfNode implements IConfNode, Serializable
 	 * @see com.i3xx.util.ctree.IConfNode#resolver(com.i3xx.util.ctree.IResolveRaw)
 	 */
 	public void resolver(IResolveRaw resolver) {
-		this.resolver = resolver;
+		synchronized(this) {
+			this.resolver = resolver;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.i3xx.util.ctree.IConfNode#resolver()
 	 */
-	public IResolveRaw resolver() {
+	public synchronized IResolveRaw resolver() {
 		return resolver;
 	}
 	
@@ -634,10 +650,12 @@ public class ConfNode implements IConfNode, Serializable
 	 * @see com.i3xx.util.ctree.IConfNode#removeListener(com.i3xx.util.ctree.IUpdateListener)
 	 */
 	public void removeListener(IUpdateListener listener) {
-		if(this.listeners==null)
-			return;
-		
-		this.listeners.remove(listener);
+		synchronized(this) {
+			if(this.listeners==null)
+				return;
+			
+			this.listeners.remove(listener);
+		}
 	}
 	
 	/**

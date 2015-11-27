@@ -150,6 +150,12 @@ public interface IConfNode
 	boolean isLeafNode();
 	
 	/**
+	 * @param name The name of the child node
+	 * @return True if a node has the children with the name.
+	 */
+	boolean hasChildNode(String name);
+	
+	/**
 	 * @return The number of children
 	 */
 	int size();
