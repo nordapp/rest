@@ -1,6 +1,5 @@
 package org.i3xx.util.context.model;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ import java.util.Map;
  * @param <K>
  * @param <V>
  */
-public interface IContext<K, V extends Serializable> extends Serializable {
+public interface IContext<K, V> {
 	
 	/**
 	 * Returns a new instance of the JCS context
@@ -19,7 +18,7 @@ public interface IContext<K, V extends Serializable> extends Serializable {
 	 * @param region The cache region
 	 * @return
 	 */
-	BigInteger logon(String user, Map<String, Serializable> credentials);
+	BigInteger logon(String user, Map<String, Object> credentials);
 	
 	/**
 	 * Returns an instance of the JCS context

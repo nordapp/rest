@@ -1,6 +1,5 @@
 package org.i3xx.util.context.impl;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,12 +15,7 @@ import org.slf4j.LoggerFactory;
  * @param <K>
  * @param <V>
  */
-public class SimpleContext<K, V extends Serializable> implements IContext<K, V> {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7434582082908948064L;
+public class SimpleContext<K, V> implements IContext<K, V> {
 	
 	/* The logger */
 	@SuppressWarnings("unused")
@@ -49,7 +43,7 @@ public class SimpleContext<K, V extends Serializable> implements IContext<K, V> 
 	}
 
 	@Override
-	public BigInteger logon(String user, Map<String, Serializable> credentials) {
+	public BigInteger logon(String user, Map<String, Object> credentials) {
 		return ikey;
 	}
 

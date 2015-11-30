@@ -1,6 +1,5 @@
 package org.i3xx.util.context.impl;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -15,12 +14,7 @@ import org.i3xx.util.context.model.IContext;
  * @param <K>
  * @param <V>
  */
-public class JCSContext<K, V extends Serializable> implements IContext<K, V> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6282382430615341263L;
+public class JCSContext<K, V> implements IContext<K, V> {
 	
 	/** The data cache */
 	private final CacheAccess<K, V> cache;
@@ -34,7 +28,7 @@ public class JCSContext<K, V extends Serializable> implements IContext<K, V> {
 	 * @param region The cache region
 	 * @return
 	 */
-	public static <K, V extends Serializable> IContext<K, V> getInstance(String region) {
+	public static <K, V> IContext<K, V> getInstance(String region) {
 		return new JCSContext<K, V>(region);
 	}
 	
@@ -44,7 +38,8 @@ public class JCSContext<K, V extends Serializable> implements IContext<K, V> {
 	 * @param session The session key
 	 * @return
 	 */
-	public static <K, V extends Serializable> IContext<K, V> getInstance(BigInteger session) {
+	public static <K, V> IContext<K, V> getInstance(BigInteger session) {
+		//TODO
 		return null;
 	}
 	
@@ -60,7 +55,7 @@ public class JCSContext<K, V extends Serializable> implements IContext<K, V> {
 	}
 
 	@Override
-	public BigInteger logon(String user, Map<String, Serializable> credentials) {
+	public BigInteger logon(String user, Map<String, Object> credentials) {
 		return ikey;
 	}
 	
