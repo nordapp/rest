@@ -50,9 +50,14 @@
 					<Bundle-Version>${project.version}</Bundle-Version>
 					
 					<Export-Package>
-						org.i3xx.util.context
+						org.i3xx.util.context,
+						org.i3xx.util.context.impl,
+						org.i3xx.util.context.model,
 					</Export-Package>
 					<Import-Package>
+						org.apache.commons.jcs,
+						org.apache.commons.jcs.access,
+						org.apache.commons.jcs.access.exception,
 						org.slf4j
 					</Import-Package>
 					<Private-Package>
