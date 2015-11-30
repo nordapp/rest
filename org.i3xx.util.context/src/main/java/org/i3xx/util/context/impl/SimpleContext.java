@@ -27,14 +27,24 @@ public class SimpleContext<K, V extends Serializable> implements IContext<K, V> 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(SimpleContext.class);
 	
+	private static final Map<String, Map<?, ?>> instances = new HashMap<String, Map<?,?>>();
+	
 	/** The data map*/
 	private final Map<K, V> data;
 	
 	/** The session identifier */
 	private final BigInteger ikey;
 	
-	public SimpleContext() {
-		data = Collections.synchronizedMap(new HashMap<K, V>());
+	@SuppressWarnings("unchecked")
+	public SimpleContext(String region) {
+		synchronized(instances) {
+			if(instances.containsKey(region)) {
+				data = (Map<K, V>) instances.get(region);
+			} else {
+				data = Collections.synchronizedMap(new HashMap<K, V>());
+				instances.put(region, data);
+			}//fi
+		}//
 		ikey = BigInteger.ZERO;
 	}
 
@@ -55,7 +65,9 @@ public class SimpleContext<K, V extends Serializable> implements IContext<K, V> 
 
 	@Override
 	public void put(K key, V value) {
-		data.put(key, value);
+		synchronized(data) {
+			data.put(key, value);
+		}//
 	}
 
 	@Override
@@ -68,7 +80,9 @@ public class SimpleContext<K, V extends Serializable> implements IContext<K, V> 
 
 	@Override
 	public void remove(K key) {
-		data.remove(key);
+		synchronized(data) {
+			data.remove(key);
+		}//
 	}
 	
 }
