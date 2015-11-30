@@ -16,6 +16,7 @@ import org.i3xx.util.rna.engine.server.DocumentFactory;
 /**
  * @author S. Hauptmann
  */
+@SuppressWarnings("unchecked")
 public class CDocument extends CData implements IDocument {
 	
 	private static final long serialVersionUID = 1L;
