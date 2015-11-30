@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.i3xx.util.context.model.IContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Stefan
@@ -20,7 +22,11 @@ public class SimpleContext<K, V extends Serializable> implements IContext<K, V> 
 	 * 
 	 */
 	private static final long serialVersionUID = 7434582082908948064L;
-
+	
+	/* The logger */
+	@SuppressWarnings("unused")
+	private static Logger logger = LoggerFactory.getLogger(SimpleContext.class);
+	
 	/** The data map*/
 	private final Map<K, V> data;
 	

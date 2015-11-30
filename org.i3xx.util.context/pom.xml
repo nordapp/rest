@@ -50,10 +50,9 @@
 					<Bundle-Version>${project.version}</Bundle-Version>
 					
 					<Export-Package>
-						org.i3xx.util.context,
+						org.i3xx.util.context
 					</Export-Package>
 					<Import-Package>
-						com.google.gson,
 						org.slf4j
 					</Import-Package>
 					<Private-Package>
