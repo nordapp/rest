@@ -115,12 +115,24 @@ public class ConfParser implements IParser
 
 	public void addconf(String file) throws IOException
 	{
+		if(logger.isDebugEnabled())
+			logger.debug("Add the configuration file '{}'", file);
+		
+		if(file==null)
+			return;
+		
 		ConfFile c = new ConfFile(this);
 		c.parse(file);
 	}
 
 	public void addconf(String k, String v) throws IOException
 	{
+		if(logger.isTraceEnabled())
+			logger.trace("Add the configuration '{}' : '{}'", k, v);
+		
+		if(k==null || v==null)
+			return;
+		
 		root.create(k).value( v );
 	}
 

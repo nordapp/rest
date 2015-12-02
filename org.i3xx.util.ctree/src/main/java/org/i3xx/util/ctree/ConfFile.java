@@ -22,6 +22,8 @@ import java.util.zip.ZipFile;
 
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *	Diese Klasse liest eine Konfigurationsdatei und erstellt eine Tabelle.
@@ -42,7 +44,7 @@ public class ConfFile {
 
 	public static final String separator = " \t";
 	
-	//private static final Logger logger = LoggerFactory.getLogger(ConfFile.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConfFile.class);
 	
 	private ConfParser cparser;
 	private boolean subdir;
@@ -117,6 +119,8 @@ public class ConfFile {
 						arr = getFileInfo(tmp, fileName);
 					}
 					
+					logger.trace("Filescan path: '{}', regexp: '{}'", arr[0], arr[1]);
+					
 					//get all filenames at the given path (axis)
 					Vector<String> vIn = getFiles(arr[0]);
 					for(int i=0; i<vIn.size(); i++){
@@ -156,7 +160,14 @@ public class ConfFile {
 					key = nodePrefix + "." + key;
 				}
 				//Insert to confTree
-				cparser.addconf(key, param);
+				
+				if(key==null){
+					logger.debug("The line '{}' results in an invalid key 'null'.", line);
+				}else if(param==null) {
+					logger.debug("The line '{}' results in an invalid parameter 'null'.", line);
+				}else{
+					cparser.addconf(key, param);
+				}
 			}//fi
 		}while (line!=null);
 		
