@@ -312,6 +312,9 @@ public class ConfFile {
 	 * @throws IOException
 	 */
 	private Vector<String> getFiles(String fileName) throws IOException {
+		
+		logger.debug("Read all files from '{}'.", fileName);
+		
 		Vector<String> vIn = new Vector<String>();
 		
 		//The file is a directory: process all if name ends with '/**'
@@ -329,22 +332,28 @@ public class ConfFile {
 				for(int i=0; i<names.length; i++){
 					File f = new File(file, names[i]);
 					//add file at the end of the stack (FIFO)
-					if(f.isFile() && f.exists())
+					if(f.isFile() && f.exists()){
+						logger.trace("Add file:{}/{}", fileName, names[i]);
 						vIn.add(fileName+File.separator+names[i]);
-				}
+					}
+				}//for
 			}else{
 				String[] names = file.list(new FileFilter());
 				for(int i=0; i<names.length; i++){
 					File f = new File(file, names[i]);
 					//add file at the end of the stack (FIFO)
-					if(f.isFile() && f.exists())
+					if(f.isFile() && f.exists()){
+						logger.trace("Add file:{}/{}", fileName, names[i]);
 						vIn.add(fileName+File.separator+names[i]);
-				}
+					}
+				}//for
 			}
 		}else{
 			//add file at the end of the stack (FIFO)
-			if(file.isFile() && file.exists())
+			if(file.isFile() && file.exists()) {
+				logger.trace("Add file:{}", fileName);
 				vIn.add(fileName);
+			}
 		}//fi
 		
 		return vIn;
@@ -356,6 +365,8 @@ public class ConfFile {
 	 * @throws IOException
 	 */
 	private String[] getConf(String fileName, String expr) throws IOException {
+		
+		logger.trace("Get configuration file:{}, regexp:{}", fileName, expr);
 		
 		ConfFileHandler handler = new ConfFileHandler(cparser.getRoot());
 		
@@ -379,6 +390,8 @@ public class ConfFile {
 				
 				String name = entry.getName();
 				if(re.match(name)){
+					logger.trace("ZIP-Entry matches:{}, regexp:{}", name, expr);
+					
 					//resize array
 					String[] temp = new String[result.length+1];
 					System.arraycopy(result, 0, temp, 0, result.length);
@@ -398,10 +411,12 @@ public class ConfFile {
 		}else if( fileType == ConfFileHandler.XML_FILE_TYPE ){
 			if(re.match(fileName)){
 				String fname = "file:///"+fileName.replace(File.separatorChar, '/');
+				logger.trace("XML-File matches:{}, regexp:{}", fname, expr);
 				return new String[]{handler.getXFile(fname)};
 			}
 		}else{
 			if(re.match(fileName)){
+				logger.trace("File matches:{}, regexp:{}", fileName, expr);
 				return new String[]{handler.getFile(fileName)};
 			}
 		}

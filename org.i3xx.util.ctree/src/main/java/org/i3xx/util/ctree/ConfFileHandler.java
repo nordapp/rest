@@ -101,10 +101,14 @@ public class ConfFileHandler {
 	 * @throws IOException
 	 */
 	public String getZipFile(ZipFile file, ZipEntry entry) throws IOException {
-		InputStreamReader in = new InputStreamReader( 
-				file.getInputStream(entry));
 		
 		logger.debug("Read entry '{}' from module '{}'.", file.getName(), entry.getName());
+		
+		if(entry.getSize()==0)
+			return "";
+		
+		InputStreamReader in = new InputStreamReader( 
+				file.getInputStream(entry));
 		
 		StringWriter out = new StringWriter();
 		int c=0;
@@ -124,6 +128,11 @@ public class ConfFileHandler {
 	 * @throws IOException
 	 */
 	public String getZipXFile(ZipFile file, ZipEntry entry) throws IOException {
+		
+		logger.debug("Read entry '{}' from module '{}'.", file.getName(), entry.getName());
+		
+		if(entry.getSize()==0)
+			return "";
 		
 		BufferedInputStream in = new BufferedInputStream(
 				file.getInputStream(entry));
@@ -149,8 +158,6 @@ public class ConfFileHandler {
 		writer.process(confParser.getAdds());
 		out.close();
 		
-		logger.debug("Read xml entry '{}' from module '{}'.", file.getName(), entry.getName());
-		
 		return out.toString();
 	}
 	
@@ -168,12 +175,15 @@ public class ConfFileHandler {
 		in.close();
 		
 		if( buf[0]==0x50 && buf[1]==0x4B && buf[2]==0x3 && buf[3]==0x4 ){
+			logger.trace("The file type is 'zip' file:{}, entry:{}", file.getName(), entry.getName());
 			//PK34: 50 4B 03 04
 			return ZIP_FILE_TYPE;
 		}else if( buf[0]==0x3C && buf[1]==0x3F ){
 			//<?: 3C 3F
+			logger.trace("The file type is 'xml' file:{}, entry:{}", file.getName(), entry.getName());
 			return XML_FILE_TYPE;
 		}else{
+			logger.trace("The file type is 'txt' file:{}, entry:{}", file.getName(), entry.getName());
 			return DEFAULT_FILE_TYPE;
 		}
 	}
@@ -193,11 +203,14 @@ public class ConfFileHandler {
 		
 		if( buf[0]==0x50 && buf[1]==0x4B && buf[2]==0x3 && buf[3]==0x4 ){
 			//PK34: 50 4B 03 04
+			logger.trace("The file type is 'zip' file:{}", fileName);
 			return ZIP_FILE_TYPE;
 		}else if( buf[0]==0x3C && buf[1]==0x3F ){
 			//<?: 3C 3F
+			logger.trace("The file type is 'xml' file:{}", fileName);
 			return XML_FILE_TYPE;
 		}else{
+			logger.trace("The file type is 'txt' file:{}", fileName);
 			return DEFAULT_FILE_TYPE;
 		}
 	}
