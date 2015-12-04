@@ -11,7 +11,7 @@ package org.i3xx.util.rna.core;
  */
 public interface IIdsStore  {
 	
-	public static final String classdef = "com.i3xx.ob.proc.db.IdsStore";
+	public static final String classdef = "org.i3xx.util.rna.impl.IdsStore";
 	
 	void delete();
 	byte[] persist(int index) throws ConcurrentAccessException;

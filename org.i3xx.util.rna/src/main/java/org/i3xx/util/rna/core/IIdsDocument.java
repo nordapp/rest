@@ -3,7 +3,7 @@ import java.util.NoSuchElementException;
 
 public interface IIdsDocument extends Cloneable
 {
-	public static final String classdef = "com.i3xx.ob.proc.db.IdsDocument";
+	public static final String classdef = "org.i3xx.util.rna.impl.IdsDocument";
 	
     long ID();
     void ID(long id);

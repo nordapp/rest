@@ -2,7 +2,6 @@ package org.i3xx.util.rna.engine.server;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.i3xx.util.rna.core.ConcurrentAccessException;
@@ -33,13 +32,7 @@ public class RNAFactory {
 	 * @throws InvocationTargetException
 	 */
 	public static final void createIdsStore(IBrick brick, long timestamp, String mimetype, List<byte[]> content) throws ConcurrentAccessException, ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		//com.i3xx.ob.proc.db.ActualPlacement.createIdsStore(brick, timestamp, mimetype, content);
-		
-		Class<?> fClass = Class.forName("com.i3xx.ob.proc.db.ActualPlacement");
-		Class<?>[] paramTypes = new Class[]{IBrick.class, Long.TYPE, String.class, List.class};
-		Method method = fClass.getMethod("createIdsStore", paramTypes);
-		
-		method.invoke(fClass, new Object[]{brick, timestamp, mimetype, content});
+		throw new UnsupportedOperationException("This operation is not implemented yet.");
 	}
 	
 	/**
@@ -57,7 +50,7 @@ public class RNAFactory {
 		IIdsDocument doc = null;
 		//doc = new com.i3xx.ob.proc.db.IdsDocumentCPAspect(stmt);
 		
-		Class<?> cClass = Class.forName("com.i3xx.ob.proc.db.IdsDocumentCPAspect");
+		Class<?> cClass = Class.forName("org.i3xx.util.rna.impl.IdsDocumentAsString");
 		Constructor<?> cConstructor = cClass.getConstructor(new Class[]{String.class});;
 		doc = (IIdsDocument)cConstructor.newInstance(new Object[]{stmt});
 		
@@ -76,13 +69,7 @@ public class RNAFactory {
 	 * @throws InvocationTargetException
 	 */
 	public static final String referenceToAffiliatedDatabase(IIdsDocument doc) throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		//return com.i3xx.ob.proc.db.ActualPlacement.referenceToAffiliatedDatabase( doc );
-		
-		Class<?> fClass = Class.forName("com.i3xx.ob.proc.db.ActualPlacement");
-		Class<?>[] paramTypes = new Class[]{IIdsDocument.class};
-		Method method = fClass.getMethod("referenceToAffiliatedDatabase", paramTypes);
-		
-		return (String)method.invoke(fClass, new Object[]{doc});
+		throw new UnsupportedOperationException("This operation is not implemented yet.");
 	}
 	
 }
