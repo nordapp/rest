@@ -7,9 +7,11 @@ import org.i3xx.util.rna.core.IIdsStore;
 
 public class IdsDocumentAsString implements IIdsDocument {
 	
+	private long id;
 	private String document;
 	
 	public IdsDocumentAsString(String document) {
+		this.id = 0;
 		this.document = document;
 	}
 	
@@ -25,11 +27,11 @@ public class IdsDocumentAsString implements IIdsDocument {
 	//
 	
 	public long ID() {
-		throw new UnsupportedOperationException("The operation is not supported. This is the string representation of a document");
+		return id;
 	}
 
 	public void ID(long id) {
-		throw new UnsupportedOperationException("The operation is not supported. This is the string representation of a document");
+		this.id = id;
 	}
 
 	public long TS(int i) throws NoSuchElementException {
