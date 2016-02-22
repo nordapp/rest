@@ -3,7 +3,7 @@ package org.i3xx.util.dbinfoapi.impl;
 import org.i3xx.util.dbinfoapi.core.IAttribute;
 import org.i3xx.util.dbinfoapi.core.ICollection;
 
-public class CollectionImpl extends AttributeImpl implements ICollection, IAttribute {
+public class CollectionInfo extends AttributeInfo implements ICollection, IAttribute {
 	
 	/** The name of the collection */
 	private String col_name;
@@ -17,7 +17,7 @@ public class CollectionImpl extends AttributeImpl implements ICollection, IAttri
 	/** The name of the fields */
 	private String[] fields;
 	
-	public CollectionImpl(String colName) {
+	public CollectionInfo(String colName) {
 		super();
 		
 		this.col_name = colName;

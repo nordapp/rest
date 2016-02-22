@@ -3,7 +3,7 @@ package org.i3xx.util.dbinfoapi.impl;
 import org.i3xx.util.dbinfoapi.core.IAttribute;
 import org.i3xx.util.dbinfoapi.core.IField;
 
-public class FieldImpl extends AttributeImpl implements IField, IAttribute {
+public class FieldInfo extends AttributeInfo implements IField, IAttribute {
 
 	/** The name of the field */
 	private String field_name;
@@ -11,7 +11,7 @@ public class FieldImpl extends AttributeImpl implements IField, IAttribute {
 	/** The type definition of the field */
 	private String field_type;
 	
-	public FieldImpl(String fieldName) {
+	public FieldInfo(String fieldName) {
 		super();
 		
 		this.field_name = fieldName;

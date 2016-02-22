@@ -3,7 +3,7 @@ package org.i3xx.util.dbinfoapi.impl;
 import org.i3xx.util.dbinfoapi.core.IAttribute;
 import org.i3xx.util.dbinfoapi.core.IDatabase;
 
-public class DatabaseImpl extends AttributeImpl implements IDatabase, IAttribute {
+public class DatabaseInfo extends AttributeInfo implements IDatabase, IAttribute {
 	
 	/** The name of the database in the configuration */
 	private String db_name;
@@ -26,7 +26,7 @@ public class DatabaseImpl extends AttributeImpl implements IDatabase, IAttribute
 	/**
 	 * @param dbName The name of the database
 	 */
-	public DatabaseImpl(String dbName) {
+	public DatabaseInfo(String dbName) {
 		super();
 		
 		this.db_name = dbName;

@@ -3,14 +3,14 @@ package org.i3xx.util.dbinfoapi.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AttributeImpl {
+public class AttributeInfo {
 	
 	/**
 	 * The attributes of the collection
 	 */
 	protected Map<String, Object> attributes;
 	
-	public AttributeImpl() {
+	public AttributeInfo() {
 		this.attributes = new HashMap<String, Object>();
 	}
 	
