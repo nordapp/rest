@@ -1,6 +1,6 @@
 package org.i3xx.util.dbinfoapi.core;
 
-public interface IField {
+public interface IField extends IAttribute {
 
 	/**
 	 * @return the field_name

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1456139071289
+Build-Jdk: 1.6.0_06
+Built-By: Stefan
+Bundle-Description: Provides a simple API to deal with the databases.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NordApp Tools :: DatabaseInfoAPI
+Bundle-SymbolicName: org.i3xx.util.org.i3xx.util.dbinfoapi
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.i3xx.util.dbinfoapi.core;version="0.0.1.SNAPSHOT",or
+ g.i3xx.util.dbinfoapi.impl;uses:="org.i3xx.util.dbinfoapi.core";version
+ ="0.0.1.SNAPSHOT"
+Import-Package: com.google.gson;version="[2.3,3)",org.slf4j;version="[1.
+ 7,2)"
+Tool: Bnd-1.50.0

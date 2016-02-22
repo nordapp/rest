@@ -1,6 +1,6 @@
 package org.i3xx.util.dbinfoapi.core;
 
-public interface ICollection {
+public interface ICollection extends IAttribute {
 
 	/**
 	 * @return the col_name

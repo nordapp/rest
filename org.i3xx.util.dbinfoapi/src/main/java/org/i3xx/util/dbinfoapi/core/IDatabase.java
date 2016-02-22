@@ -1,6 +1,6 @@
 package org.i3xx.util.dbinfoapi.core;
 
-public interface IDatabase {
+public interface IDatabase extends IAttribute {
 
 	/**
 	 * @return the db_name
