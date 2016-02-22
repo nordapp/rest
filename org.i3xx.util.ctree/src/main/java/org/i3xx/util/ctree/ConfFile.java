@@ -285,7 +285,9 @@ public class ConfFile {
 		if(fileName.startsWith("."+File.separator))
 			fileName = startDir+fileName.substring(1);
 		
+		//
 		//FIXME This may be a security hole cause ../../ path is allowed
+		//
 		if(fileName.startsWith(".."+File.separator)){
 			String tDir = startDir.endsWith(File.separator)?
 					startDir.substring(0, startDir.length()-1):startDir;
