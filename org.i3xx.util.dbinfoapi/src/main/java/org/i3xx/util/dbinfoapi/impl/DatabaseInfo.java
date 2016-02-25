@@ -5,7 +5,7 @@ import org.i3xx.util.dbinfoapi.core.IDatabase;
 
 public class DatabaseInfo extends AttributeInfo implements IDatabase, IAttribute {
 	
-	/** The name of the database in the configuration */
+	/** The unique name or id of the database in the configuration */
 	private String db_name;
 	
 	/** The type of the database [ sql | js | java ] */
