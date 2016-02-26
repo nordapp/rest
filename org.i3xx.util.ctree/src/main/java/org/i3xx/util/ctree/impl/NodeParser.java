@@ -50,10 +50,23 @@ public class NodeParser implements IVisitor {
 		//Pattern that replaces \\[ and \\] with \uFF5B and \uFF5D
 		//this.patternB = Pattern.compile("\uFF5B((\\w+|\\*)(\\.(\\w+|\\*|(\\w+|\\*)\\-\\>(\\w+|\\*)))*)\uFF5D");
 		//Pattern that use (\\w+(\\-\\w+)*)+ instead of \\w+
-		this.patternA = Pattern.compile("\\$\\{(((\\w+(\\-\\w+)*)+|\\*)(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\\}");
-		this.patternB = Pattern.compile("\uFF5B(((\\w+(\\-\\w+)*)+|\\*)(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\uFF5D");
+		//this.patternA = Pattern.compile("\\$\\{(((\\w+(\\-\\w+)*)+|\\*)+(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\\}");
+		//this.patternB = Pattern.compile("\uFF5B(((\\w+(\\-\\w+)*)+|\\*)+(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\uFF5D");
+		//Allow a single name
+		//this.patternA = Pattern.compile("\\$\\{(((\\w+(\\-\\w+)*)+|\\*)?((\\.|(\\w+(\\-\\w+)*)+\\-\\>(\\w+(\\-\\w+)*)+)((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\\}");
+		//this.patternB = Pattern.compile("\uFF5B(((\\w+(\\-\\w+)*)+|\\*)?((\\.|(\\w+(\\-\\w+)*)+\\-\\>(\\w+(\\-\\w+)*)+)((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\uFF5D");
+		//this.patternA = Pattern.compile("\\$\\{(((\\w+(\\-\\w+)*)+|\\*)+(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\\}");
+		//this.patternB = Pattern.compile("\uFF5B(((\\w+(\\-\\w+)*)+|\\*)+(\\.((\\w+(\\-\\w+)*)+|\\*|((\\w+(\\-\\w+)*)+|\\*)\\-\\>((\\w+(\\-\\w+)*)+|\\*)))*)\uFF5D");
+		//this.patternA = Pattern.compile("\\$\\{(((\\w+(\\-\\w+)*|\\*)(\\.(\\w+(\\-\\w+)*|\\*))*)(\\-\\>((\\w+(\\-\\w+)*|\\*)(\\.(\\w+(\\-\\w+)*|\\*))*))?)\\}");
+		//this.patternB = Pattern.compile("\uFF5B(((\\w+(\\-\\w+)*|\\*)(\\.(\\w+(\\-\\w+)*|\\*))*)(\\-\\>((\\w+(\\-\\w+)*|\\*)(\\.(\\w+(\\-\\w+)*|\\*))*))?)\uFF5D");
+		this.patternA = Pattern.compile("\\$\\{(((\\w[\\w-]*|\\*)(\\.(\\w[\\w-]*|\\*))*)(\\-\\>((\\w[\\w-]*|\\*)(\\.(\\w[\\w-]*|\\*))*))?)\\}");
+		this.patternB = Pattern.compile("\uFF5B(((\\w[\\w-]*|\\*)(\\.(\\w[\\w-]*|\\*))*)(\\-\\>((\\w[\\w-]*|\\*)(\\.(\\w[\\w-]*|\\*))*))?)\uFF5D");
+		//This is the word definition ::= ((\\w[\\w-]*|\\*)(\\.(\\w[\\w-]*|\\*))*)
+		//word = \w[\w-]* | \*
+		//path ::= word ( '.' word )*
+		
 		//Note:
-		//Pattern b doesn't match \[ \] because of the 2nd backslash. 
+		//Pattern b doesn't match \[ \] because of the 2nd backslash.
 		
 		this.factory = factory;
 	}

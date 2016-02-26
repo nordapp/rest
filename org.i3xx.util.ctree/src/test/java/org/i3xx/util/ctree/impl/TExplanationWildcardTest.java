@@ -16,6 +16,7 @@ import org.i3xx.util.ctree.parser.LineReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class TExplanationWildcardTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	@Ignore
 	public void testA() throws IOException {
 		
 		IConfNode root = new ConfNode();
@@ -93,7 +94,7 @@ public class TExplanationWildcardTest {
 		assertEquals("violet", hdl.getParam("node.dest.b.f5"));
 	}
 
-	@Test
+	@Ignore
 	public void testB() throws IOException {
 		
 		IConfNode root = new ConfNode();
@@ -141,6 +142,48 @@ public class TExplanationWildcardTest {
 		assertEquals("green", hdl.getParam("node.dest.b.f3"));
 		assertEquals("blue", hdl.getParam("node.dest.b.f4"));
 		assertEquals("violet", hdl.getParam("node.dest.b.f5"));
+	}
+
+	@Test
+	public void testC() throws IOException {
+		
+		IConfNode root = new ConfNode();
+		NodeHandler hdl = new NodeHandler(root, null);
+		
+		hdl.addconf("test.src.f1", "red");
+		hdl.addconf("test.src.f2", "yellow");
+		hdl.addconf("test.src.f3", "green");
+		hdl.addconf("test.src.f4", "blue");
+		hdl.addconf("test.src.f5", "violet");
+		
+		//
+		//
+		//
+		
+		hdl.addconf("temp.1", Protector.wrap("[test->copy]") );
+		
+		
+		NodeParser parser = new NodeParser(new LinkableResolverFactory());
+		VisitorWalker<IConfNode> walker = new VisitorWalker<IConfNode>();
+		walker.setRoot(root);
+		walker.walk(parser);
+		
+		Linker linker = new Linker(root);
+		linker.process();
+		
+		//The origin nodes
+		assertEquals("red", hdl.getParam("test.src.f1"));
+		assertEquals("yellow", hdl.getParam("test.src.f2"));
+		assertEquals("green", hdl.getParam("test.src.f3"));
+		assertEquals("blue", hdl.getParam("test.src.f4"));
+		assertEquals("violet", hdl.getParam("test.src.f5"));
+		
+		//The copies
+		assertEquals("red", hdl.getParam("copy.src.f1"));
+		assertEquals("yellow", hdl.getParam("copy.src.f2"));
+		assertEquals("green", hdl.getParam("copy.src.f3"));
+		assertEquals("blue", hdl.getParam("copy.src.f4"));
+		assertEquals("violet", hdl.getParam("copy.src.f5"));
 	}
 
 }
