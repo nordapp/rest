@@ -99,8 +99,10 @@ public class NodeParser implements IVisitor {
 			int lpos = 0;
 			Matcher m = patternA.matcher(param);
 			
-			if(logger.isTraceEnabled())
+			if(logger.isTraceEnabled()) {
 				logger.trace("The NodeParser matches (xml style) '{}' {}", param, m.find());
+				m.reset();
+			}
 			
 			while(m.find()){
 				if(resolver==null)
@@ -124,8 +126,10 @@ public class NodeParser implements IVisitor {
 			int lpos = 0;
 			Matcher m = patternB.matcher(param);
 			
-			if(logger.isTraceEnabled())
+			if(logger.isTraceEnabled()) {
 				logger.trace("The NodeParser matches (text style) '{}' {}", param, m.find());
+				m.reset();
+			}
 			
 			while(m.find()){
 				if(resolver==null)
