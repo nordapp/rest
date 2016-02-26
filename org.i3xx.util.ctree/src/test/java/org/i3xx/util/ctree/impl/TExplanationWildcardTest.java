@@ -1,14 +1,18 @@
 package org.i3xx.util.ctree.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.i3xx.util.ctree.ConfNode;
 import org.i3xx.util.ctree.IConfNode;
 import org.i3xx.util.ctree.linker.Linker;
+import org.i3xx.util.ctree.parser.LineReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -39,7 +43,7 @@ public class TExplanationWildcardTest {
 	}
 
 	@Test
-	public void test() throws IOException {
+	public void testA() throws IOException {
 		
 		IConfNode root = new ConfNode();
 		NodeHandler hdl = new NodeHandler(root, null);
@@ -87,8 +91,56 @@ public class TExplanationWildcardTest {
 		assertEquals("green", hdl.getParam("node.dest.b.f3"));
 		assertEquals("blue", hdl.getParam("node.dest.b.f4"));
 		assertEquals("violet", hdl.getParam("node.dest.b.f5"));
+	}
 
+	@Test
+	public void testB() throws IOException {
 		
+		IConfNode root = new ConfNode();
+		NodeHandler hdl = new NodeHandler(root, null);
+		
+		StringBuffer buf = new StringBuffer();
+		buf.append("test.src.f1 red").append('\n');
+		buf.append("test.src.f2 yellow").append('\n');
+		buf.append("test.src.f3 green").append('\n');
+		buf.append("test.src.f4 blue").append('\n');
+		buf.append("test.src.f5 violet").append('\n');
+		buf.append("test.dest.1 [test.src->node.*.b]").append('\n');
+		
+		LineNumberReader in = new LineNumberReader(new StringReader(buf.toString()));
+		
+		DefaultParser defParse = new DefaultParser("");
+		defParse.setRules(root);
+		
+		LineReader reader = new LineReader(in);
+		reader.setParams(new HashMap<String, String>());
+		reader.getParams().put("filename", "<file>");
+		reader.getParams().put("mimetype", "text/plain");
+		reader.getParams().put("datatype", "line");
+		defParse.process(reader);
+		reader.close();
+		
+		NodeParser parser = new NodeParser(new LinkableResolverFactory());
+		VisitorWalker<IConfNode> walker = new VisitorWalker<IConfNode>();
+		walker.setRoot(root);
+		walker.walk(parser);
+		
+		Linker linker = new Linker(root);
+		linker.process();
+		
+		//The origin nodes
+		assertEquals("red", hdl.getParam("test.src.f1"));
+		assertEquals("yellow", hdl.getParam("test.src.f2"));
+		assertEquals("green", hdl.getParam("test.src.f3"));
+		assertEquals("blue", hdl.getParam("test.src.f4"));
+		assertEquals("violet", hdl.getParam("test.src.f5"));
+		
+		//The copies
+		assertEquals("red", hdl.getParam("node.dest.b.f1"));
+		assertEquals("yellow", hdl.getParam("node.dest.b.f2"));
+		assertEquals("green", hdl.getParam("node.dest.b.f3"));
+		assertEquals("blue", hdl.getParam("node.dest.b.f4"));
+		assertEquals("violet", hdl.getParam("node.dest.b.f5"));
 	}
 
 }
