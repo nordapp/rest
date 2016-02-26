@@ -43,12 +43,13 @@ public class TExplanationWildcardTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Ignore
+	@Test
 	public void testA() throws IOException {
 		
 		IConfNode root = new ConfNode();
 		NodeHandler hdl = new NodeHandler(root, null);
 		
+		hdl.addconf("test.src", "colors");
 		hdl.addconf("test.src.f1", "red");
 		hdl.addconf("test.src.f2", "yellow");
 		hdl.addconf("test.src.f3", "green");
@@ -80,6 +81,7 @@ public class TExplanationWildcardTest {
 		linker.process();
 		
 		//The origin nodes
+		assertEquals("colors", hdl.getParam("test.src"));
 		assertEquals("red", hdl.getParam("test.src.f1"));
 		assertEquals("yellow", hdl.getParam("test.src.f2"));
 		assertEquals("green", hdl.getParam("test.src.f3"));
@@ -87,6 +89,7 @@ public class TExplanationWildcardTest {
 		assertEquals("violet", hdl.getParam("test.src.f5"));
 		
 		//The copies
+		assertEquals("colors", hdl.getParam("node.dest.b"));
 		assertEquals("red", hdl.getParam("node.dest.b.f1"));
 		assertEquals("yellow", hdl.getParam("node.dest.b.f2"));
 		assertEquals("green", hdl.getParam("node.dest.b.f3"));
@@ -144,7 +147,7 @@ public class TExplanationWildcardTest {
 		assertEquals("violet", hdl.getParam("node.dest.b.f5"));
 	}
 
-	@Test
+	@Ignore
 	public void testC() throws IOException {
 		
 		IConfNode root = new ConfNode();

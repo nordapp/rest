@@ -35,6 +35,7 @@ public class LinkResolver implements IResolver {
 	 * @see com.i3xx.util.ctree.IResolver#resolve(com.i3xx.util.ctree.IVarNode)
 	 */
 	public void resolve(IVarNode node) {
+
 		
 		//must have a link operator
 		if(node.getOp()!=VarNode.OP.LINK)
@@ -141,10 +142,12 @@ public class LinkResolver implements IResolver {
 	 * @param entries
 	 */
 	private void readNode(IConfNode node, Map<String, String>entries) {
-		if(node.isLeafNode())
+		if(node.isLeafNode()){
 			entries.put(node.getFullName(), node.rawValue());
-		else
+		}else{
+			entries.put(node.getFullName(), node.rawValue());
 			for(IConfNode n:node.getChildNodes3())
 				readNode(n, entries);
+		}//fi
 	}
 }
