@@ -100,7 +100,7 @@ public class NodeParser implements IVisitor {
 			Matcher m = patternA.matcher(param);
 			
 			if(logger.isTraceEnabled())
-				logger.trace("The NodeParser matches '{}' {}", param, m.find());
+				logger.trace("The NodeParser matches (xml style) '{}' {}", param, m.find());
 			
 			while(m.find()){
 				if(resolver==null)
@@ -125,7 +125,7 @@ public class NodeParser implements IVisitor {
 			Matcher m = patternB.matcher(param);
 			
 			if(logger.isTraceEnabled())
-				logger.trace("The NodeParser matches '{}' {}", param, m.find());
+				logger.trace("The NodeParser matches (text style) '{}' {}", param, m.find());
 			
 			while(m.find()){
 				if(resolver==null)
