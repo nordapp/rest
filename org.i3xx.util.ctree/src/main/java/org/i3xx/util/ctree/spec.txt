@@ -24,11 +24,13 @@ Some languages like CSS do not support the '-' as a member of the NameChar. In t
 
 The configuration path may have a function inside. Known functions: '*', '->'
 
-Use the regexp to match:
+Use the regexp (expr) to match:
 
-\w+ (\.\w+)*
-(\w+ | \*) (\. ( \w+ | \* | (\w+|\*)->(\w+|\*) ) )*
-((\w+(-\w+)*)+|\*) (\. ( (\w+(-\w+)*)+ | \* | ((\w+(-\w+)*)+|\*)->((\w+(-\w+)*)+|\*) ) )*
+word ::= \w[\w-]*
+func ::= '*'
+wdfc ::= word | func
+stmt ::= ( wdfc ( '.' wdfc )* ) ( '->' ( wdfc ('.' wdfc )* ) )?
+expr ::= ((\w[\w-]*|\*)(\.(\w[\w-]*|\*))*)(\-\>((\w[\w-]*|\*)(\.(\w[\w-]*|\*))*))?
 
 [BEHM98]
 Henning Behme, Stefan Mintert, XML in der Praxis, Addison-Wesley, ISBN 3 8273 1330 9 
