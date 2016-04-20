@@ -31,6 +31,7 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 	
 	private static final Logger logger = LoggerFactory.getLogger(KeyValueRuleIncludeA.class);
 	
+	public static final int HJSON_FILE_TYPE = 4;
 	public static final int ZIP_FILE_TYPE = 3;
 	public static final int XML_FILE_TYPE = 2;
 	public static final int DEFAULT_FILE_TYPE = 1;
@@ -295,10 +296,17 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 					
 					if( fileType == XML_FILE_TYPE ){
 						getZipXFile(file, entry);
+					}else if( fileType == HJSON_FILE_TYPE ){
+						getZipHFile(file, entry);
 					}else{
 						getZipFile(file, entry);
 					}
 				}
+			}
+		}else if( fileType == HJSON_FILE_TYPE ){
+			if(re.match(fileName)){
+				String fname = "file:///"+fileName.replace(File.separatorChar, '/');
+				getHFile(fname);
 			}
 		}else if( fileType == XML_FILE_TYPE ){
 			if(re.match(fileName)){
@@ -330,6 +338,33 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 		reader.close();
 		
 		logger.debug("Read conf file '{}' as file.", fileName);
+	}
+	
+	/**
+	 * @param fileName
+	 * @param list
+	 * @return
+	 * @throws IOException
+	 */
+	protected void getHFile(String fileName) throws IOException {
+		
+		//Parse HJson and write dotted notation
+		String fN;
+		try {
+			fN = CURL.fileURLtoFilename(fileName);
+		} catch (URISyntaxException e) {
+			throw new IOException(e.toString());
+		}
+		HJsonReader reader = new HJsonReader(fN);
+		reader.setParams(new HashMap<String, String>());
+		reader.getParams().put("filename", fileName);
+		reader.getParams().put("datatype", "line");
+		reader.getParams().put("mimetype", "application/json");
+		reader.getParams().put("prefix", prefix);
+		wrapper.process( reader );
+		reader.close();
+		
+		logger.debug("Read conf file '{}' as hjson file.", fileName);
 	}
 	
 	/**
@@ -402,6 +437,27 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 	}
 	
 	/**
+	 * @param file
+	 * @param entry
+	 * @param list
+	 * @return
+	 * @throws IOException
+	 */
+	protected void getZipHFile(ZipFile file, ZipEntry entry) throws IOException {
+		/*
+		ZipHJsonReader reader = new ZipHJsonReader(file.getName(), entry.getName());
+		reader.setParams(new HashMap<String, String>());
+		reader.getParams().put("filename", file.getName());
+		reader.getParams().put("datatype", "line");
+		reader.getParams().put("mimetype", "application/json");
+		reader.getParams().put("prefix", prefix);
+		wrapper.process( reader );
+		reader.close();
+		*/
+		logger.debug("Read conf file '{} ({})' as xml hjson file.", file.getName(), entry.getName());
+	}
+	
+	/**
 	 * @author Stefan
 	 *
 	 */
@@ -468,6 +524,9 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 		}else if( buf[0]==0x3C && buf[1]==0x3F ){
 			//<?: 3C 3F
 			return XML_FILE_TYPE;
+		}else if( buf[0]==0x7B ){
+			//{: 7B
+			return HJSON_FILE_TYPE;
 		}else{
 			return DEFAULT_FILE_TYPE;
 		}
@@ -492,6 +551,9 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 		}else if( buf[0]==0x3C && buf[1]==0x3F ){
 			//<?: 3C 3F
 			return XML_FILE_TYPE;
+		}else if( buf[0]==0x7B ){
+			//{: 7B
+			return HJSON_FILE_TYPE;
 		}else{
 			return DEFAULT_FILE_TYPE;
 		}

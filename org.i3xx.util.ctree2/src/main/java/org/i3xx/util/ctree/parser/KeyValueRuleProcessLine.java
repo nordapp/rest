@@ -26,6 +26,7 @@ public class KeyValueRuleProcessLine extends AbstractKeyValueRule {
 		super();
 		
 		this.root = root;
+		//The NodeParser does the resolving of the value of the configuration node.
 		this.nParser = new NodeParser(factory);
 	}
 

@@ -16,9 +16,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileParserTest {
+public class FileParser2Test {
 	
-	private static final Logger logger = LoggerFactory.getLogger(FileParserTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(FileParser2Test.class);
 	
 	private static IConfNode root = new ConfNode();
 	
@@ -28,7 +28,7 @@ public class FileParserTest {
 		PropertyConfigurator.configure(url);
 		logger.info("The logger started {}", url);
 		
-		String confFile = ClassLoader.getSystemClassLoader().getResource("ParserTest.conf")
+		String confFile = ClassLoader.getSystemClassLoader().getResource("Parser2Test.conf")
 				.getFile().substring(1).replace('/', File.separatorChar);
 		logger.info("The conf file is {}", confFile);
 		
@@ -49,25 +49,14 @@ public class FileParserTest {
 	}
 
 	@Test
-	public void testPlain() throws IOException {
-		
-		assertEquals( root.get("main.system.name.test-1").value(), "MyTest" );
-		assertEquals( root.get("main.system.name.test-2").value(), "MyTest" );
-		assertEquals( root.get("main.system.name.test-3").value(), "MyTest" );
-		assertEquals( root.get("main.system.name.test-4").value(), "MyTest" );
-		assertEquals( root.get("main.system.name.test-5").value(), "MyTest" );
-		
-	}
-
-	@Test
 	public void testHjson() throws IOException {
 		
-		/*assertEquals( root.get("main.system.json.test-1").value(), "MyTest" );
+		assertEquals( root.get("main.system.json.test-1").value(), "MyTest" );
 		assertEquals( root.get("main.system.json.test-2").value(), "MyTest" );
 		assertEquals( root.get("main.system.json.test-3").value(), "MyTest" );
 		assertEquals( root.get("main.system.json.test-4").value(), "MyTest" );
 		assertEquals( root.get("main.system.json.test-5").value(), "MyTest" );
-		*/
+		
 	}
 
 }
