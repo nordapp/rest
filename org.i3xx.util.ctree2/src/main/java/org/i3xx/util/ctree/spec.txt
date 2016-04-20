@@ -1,0 +1,36 @@
+Specifications:
+
+[sh01 2013-01-23]
+
+The configuration names (ConfName) has as the lowest common denominator the intersection between JSON Name and XML Name.
+@see NodeParser
+
+The definition is:
+
+
+Letter   ::= A.8 Zeichenklassen S.272 [BEHM98]
+Digit    ::= A.8 Zeichenklassen S.273 [BEHM98]
+NameChar ::= Letter | Digit | '-' | '_'
+Name     ::= (Letter | '_') (NameChar)*
+ConfName ::= Name ('.' Name)+
+
+
+Some languages like CSS do not support the '-' as a member of the NameChar. In this case use the following transformation.
+
+ 1. Remove the '-'
+ 2. Change the first character of the 2nd name to an upper case letter if it is lower case.
+ 3. Move the two names together
+
+
+The configuration path may have a function inside. Known functions: '*', '->'
+
+Use the regexp (expr) to match:
+
+word ::= \w[\w-]*
+func ::= '*'
+wdfc ::= word | func
+stmt ::= ( wdfc ( '.' wdfc )* ) ( '->' ( wdfc ('.' wdfc )* ) )?
+expr ::= ((\w[\w-]*|\*)(\.(\w[\w-]*|\*))*)(\-\>((\w[\w-]*|\*)(\.(\w[\w-]*|\*))*))?
+
+[BEHM98]
+Henning Behme, Stefan Mintert, XML in der Praxis, Addison-Wesley, ISBN 3 8273 1330 9 

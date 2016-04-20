@@ -1,0 +1,253 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.i3xx.util</groupId>
+  <artifactId>org.i3xx.util.ctree2</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <url>http://maven.apache.org</url>
+  <name>NordApp Tools :: CTree 2</name>
+  <description>Provides a simple tree configuration.</description>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  
+  <properties>
+  	<project.inceptionYear>2016</project.inceptionYear>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<project.organizationName>I.D.S. DialogSysteme GmbH</project.organizationName>
+  	<!-- Fix to pass a property to subprocess test:test in release:prepare -->
+  	<release.arguments />
+  </properties>
+  
+  <scm>
+  	<tag>org.i3xx.rest-0.0.0</tag>
+  	<url>scm:git:https://github.com/nordapp/conf</url>
+  	<connection>scm:git:https://github.com/nordapp/conf</connection>
+  	<developerConnection>scm:git:https://github.com/nordapp/conf</developerConnection>
+  </scm>
+    
+  <developers>
+    <developer>
+      <id>Stefan-Hauptmann</id>
+      <name>Stefan Hauptmann</name>
+      <url>http://www.nordapp.org</url>
+      <organization>I.D.S. DialogSysteme GmbH</organization>
+      <organizationUrl>http://www.nordapp.org</organizationUrl>
+    </developer>
+  </developers>
+  
+  <build>
+	<plugins>
+			
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>properties-maven-plugin</artifactId>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>versions-maven-plugin</artifactId>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>license-maven-plugin</artifactId>
+		</plugin>
+		
+		<plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-gpg-plugin</artifactId>
+		</plugin>
+		
+	</plugins>
+	
+	<pluginManagement>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.8</version>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-gpg-plugin</artifactId>
+			    <version>1.6</version>
+			</plugin>
+			
+		</plugins>
+	</pluginManagement>
+	
+  	<resources>
+  		<!--<resource>
+  			<directory></directory>
+  			<includes>
+  				<include>OSGI-INF/**/*.*</include>
+  			</includes>
+  		</resource>-->
+  		<!--<resource>
+  			<directory></directory>
+  			<includes>
+  				<include>LICENSE/**/*.*</include>
+  			</includes>
+  		</resource>-->
+  	</resources>
+  </build>
+
+  <dependencies>
+  	
+	<dependency>
+		<groupId>org.i3xx.util</groupId>
+		<artifactId>org.i3xx.util.basic</artifactId>
+		<version>0.1.2</version>
+	</dependency>
+  	
+	<dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>2.3.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>regexp</groupId>
+		<artifactId>regexp</artifactId>
+		<version>1.3</version>    
+	</dependency>
+	
+	<dependency>
+		<groupId>xerces</groupId>
+		<artifactId>xercesImpl</artifactId>
+		<version>2.4.0</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.hjson</groupId>
+		<artifactId>hjson</artifactId>
+		<version>1.1.3</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>1.7.5</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>1.7.5</version>
+	</dependency>
+  	
+    <dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	    <version>4.12</version>
+	    <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <distributionManagement>
+	<snapshotRepository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+    <repository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+	
+  </distributionManagement>
+  
+  
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      
+      <build>
+        <plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<organizationName>${project.organizationName}</organizationName>
+					<inceptionYear>${project.inceptionYear}</inceptionYear>
+					<projectName>${project.name}</projectName>
+					<licenseName>apache_v2</licenseName>
+				</configuration>
+				<executions>
+					<execution>
+						<id>update-project-license</id>
+						<goals>
+							<goal>update-project-license</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>update-file-header</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<roots>
+								<root>src/main/java</root>
+								<root>src/test/java</root>
+							</roots>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-licenses</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+        
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-gpg-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>sign-artifacts</id>
+			      <phase>verify</phase>
+			      <goals>
+			        <goal>sign</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+    
+</project>
