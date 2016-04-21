@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultParser implements IParserWrapper {
 	
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(DefaultParser.class);
 	
 	private File file;
@@ -110,10 +109,16 @@ public class DefaultParser implements IParserWrapper {
 			//
 			
 			String mime = current.getParams().get("mimetype");
-			if(mime!=null && mime.equals("text/xml")){
+			if( mime!=null && ( mime.equals("text/xml") || mime.equals("application/json") ) ){
 				data = Protector.escape(data);
+				
+				//usually this is not necessary - but useful to get into the process how-to
+				logger.trace("Escape data: '{}', type: {}.", data, mime);
 			}
 			data = Protector.wrap(data);
+			
+			//usually this is not necessary - but useful to get into the process how-to
+			logger.debug("Process data: '{}', type: {}.", data, mime);
 			
 			//
 			// Run the rules to every line

@@ -9,6 +9,7 @@ import java.net.URL;
 import org.apache.log4j.PropertyConfigurator;
 import org.i3xx.util.ctree.ConfNode;
 import org.i3xx.util.ctree.IConfNode;
+import org.i3xx.util.ctree.TreeBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,12 +33,7 @@ public class FileParser2Test {
 				.getFile().substring(1).replace('/', File.separatorChar);
 		logger.info("The conf file is {}", confFile);
 		
-		DefaultParser parser = new DefaultParser(confFile);
-		parser.setRules(root);
-		parser.process();
-		
-		//sets the system home
-		root.create("main.system.home").value(confFile);
+		TreeBuilder.doParse(root, new File(confFile), null);
 	}
 
 	@Before
@@ -57,6 +53,9 @@ public class FileParser2Test {
 		assertEquals( root.get("main.system.json.test-4").value(), "MyTest" );
 		assertEquals( root.get("main.system.json.test-5").value(), "MyTest" );
 		
+		System.out.println( root.get("main.system.json.test-a").value() );
+		System.out.println( root.get("main.system.xml.test-b").value() );
+		System.out.println( root.get("main.system.text.test-c").value() );
 	}
 
 }

@@ -5,10 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.i3xx.util.ctree.ConfNode;
 import org.i3xx.util.ctree.IConfNode;
+import org.i3xx.util.ctree.TreeBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,12 +34,10 @@ public class FileParserTest {
 				.getFile().substring(1).replace('/', File.separatorChar);
 		logger.info("The conf file is {}", confFile);
 		
-		DefaultParser parser = new DefaultParser(confFile);
-		parser.setRules(root);
-		parser.process();
+		Properties props = new Properties();
+		props.put("main.system.home", confFile);
 		
-		//sets the system home
-		root.create("main.system.home").value(confFile);
+		TreeBuilder.doParse(root, new File(confFile), props);
 	}
 
 	@Before
