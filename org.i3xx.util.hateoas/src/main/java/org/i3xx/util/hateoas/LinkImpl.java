@@ -4,6 +4,12 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The link header parses or generates the link header field.
+ * 
+ * @author Stefan
+ *
+ */
 public class LinkImpl implements LinkHeader.Link {
 	
 	private static final String LINK_PARAM_SEPARATOR = ";";

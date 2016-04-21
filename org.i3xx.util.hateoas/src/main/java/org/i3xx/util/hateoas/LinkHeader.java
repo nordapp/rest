@@ -48,6 +48,14 @@ public class LinkHeader {
 		return list;
 	}
 	
+	/**
+	 * Represents a link header field as defined in RFC 5988
+	 * 
+	 * Minimum fields <resource>; rel="...", <resource2>; rel="...2", ...
+	 *  
+	 * @author Stefan
+	 *
+	 */
 	public static interface Link {
 		
 		/**

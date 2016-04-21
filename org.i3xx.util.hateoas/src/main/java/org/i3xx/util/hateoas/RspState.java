@@ -10,6 +10,22 @@ import com.google.gson.JsonParser;
  * about the response we can expect if a query to
  * the server doesn't point to a single resource.
  * 
+ * The used JSON has the following form:
+ * 
+ * {
+ *     state : 200,
+ *     size : 20,
+ *     content-length : 10000,
+ *     content-type : "text/plain"
+ * }
+ * 
+ * The state is the response state if the target doesn't point to a single resource
+ * The size is like the number of available records or documents.
+ * The content length is the number of bytes or chars of the resource
+ * The content type is the type of the resource.
+ * 
+ * The RspState-Object can be serialized to/deserialized from JSON
+ * 
  * @author Stefan
  *
  */
