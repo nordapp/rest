@@ -5,7 +5,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <name>NordApp Tools :: Hateoas</name>
-  <packaging>bundle</packaging>
   <description>Provides a simple hateoas toolset.</description>
   
   <licenses>
@@ -90,6 +89,34 @@
 		   	 <autoReleaseAfterClose>true</autoReleaseAfterClose>
 		   </configuration>
 		</plugin>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-shade-plugin</artifactId>
+			<version>2.3</version>
+			<executions>
+				<execution>
+					<phase>package</phase>
+					<goals>
+						<goal>shade</goal>
+					</goals>
+					<configuration>
+						<transformers>
+							<transformer
+								implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<manifestEntries>
+									<Main-Class>org.i3xx.util.test</Main-Class>
+									<Main-Verticle>org.i3xx.util.test.Main</Main-Verticle>
+								</manifestEntries>
+							</transformer>
+						</transformers>
+						<artifactSet/>
+						<outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		
 	</plugins>
 	
   	<resources>
@@ -140,6 +167,17 @@
     </dependency>
   </dependencies>
   
+  <distributionManagement>
+	<snapshotRepository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+    <repository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+	
+  </distributionManagement>
   
   <profiles>
     <profile>
