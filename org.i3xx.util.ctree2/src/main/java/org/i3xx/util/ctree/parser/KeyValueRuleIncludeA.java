@@ -382,16 +382,20 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 		} catch (URISyntaxException e) {
 			throw new IOException(e.toString());
 		}
-		XmlReader reader = new XmlReader(fN);
-		reader.setParams(new HashMap<String, String>());
-		reader.getParams().put("filename", fileName);
-		reader.getParams().put("datatype", "line");
-		reader.getParams().put("mimetype", "text/xml");
-		reader.getParams().put("prefix", prefix);
-		wrapper.process( reader );
-		reader.close();
 		
-		logger.debug("Read conf file '{}' as xml file.", fileName);
+		try{
+			XmlReader reader = new XmlReader(fN);
+			reader.setParams(new HashMap<String, String>());
+			reader.getParams().put("filename", fileName);
+			reader.getParams().put("datatype", "line");
+			reader.getParams().put("mimetype", "text/xml");
+			reader.getParams().put("prefix", prefix);
+			wrapper.process( reader );
+			reader.close();
+			
+		}finally{
+			logger.debug("Read conf file '{}' as xml file.", fileName);
+		}
 	}
 	
 	/**
@@ -402,17 +406,19 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 	 * @throws IOException
 	 */
 	protected void getZipFile(ZipFile file, ZipEntry entry) throws IOException {
-		
-		AbstractReader reader = new ZipReader(file.getName(), entry.getName());
-		reader.setParams(new HashMap<String, String>());
-		reader.getParams().put("filename", file.getName());
-		reader.getParams().put("datatype", "line");
-		reader.getParams().put("mimetype", "text/plain");
-		reader.getParams().put("prefix", prefix);
-		wrapper.process( reader );
-		reader.close();
-		
-		logger.debug("Read conf file '{} ({})' as zip file.", file.getName(), entry.getName());
+		try{
+			AbstractReader reader = new ZipReader(file.getName(), entry.getName());
+			reader.setParams(new HashMap<String, String>());
+			reader.getParams().put("filename", file.getName());
+			reader.getParams().put("datatype", "line");
+			reader.getParams().put("mimetype", "text/plain");
+			reader.getParams().put("prefix", prefix);
+			wrapper.process( reader );
+			reader.close();
+			
+		}finally{
+			logger.debug("Read conf file '{} ({})' as zip file.", file.getName(), entry.getName());
+		}
 	}
 	
 	/**
@@ -423,17 +429,19 @@ public class KeyValueRuleIncludeA extends AbstractKeyValueRule {
 	 * @throws IOException
 	 */
 	protected void getZipXFile(ZipFile file, ZipEntry entry) throws IOException {
-		
-		AbstractReader reader = new ZipXmlReader(file.getName(), entry.getName());
-		reader.setParams(new HashMap<String, String>());
-		reader.getParams().put("filename", file.getName());
-		reader.getParams().put("datatype", "line");
-		reader.getParams().put("mimetype", "text/xml");
-		reader.getParams().put("prefix", prefix);
-		wrapper.process( reader );
-		reader.close();
-		
-		logger.debug("Read conf file '{} ({})' as xml zip file.", file.getName(), entry.getName());
+		try{
+			AbstractReader reader = new ZipXmlReader(file.getName(), entry.getName());
+			reader.setParams(new HashMap<String, String>());
+			reader.getParams().put("filename", file.getName());
+			reader.getParams().put("datatype", "line");
+			reader.getParams().put("mimetype", "text/xml");
+			reader.getParams().put("prefix", prefix);
+			wrapper.process( reader );
+			reader.close();
+			
+		}finally{
+			logger.debug("Read conf file '{} ({})' as xml zip file.", file.getName(), entry.getName());
+		}
 	}
 	
 	/**

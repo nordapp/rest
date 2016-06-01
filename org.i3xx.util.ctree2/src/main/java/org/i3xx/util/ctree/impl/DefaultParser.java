@@ -81,6 +81,7 @@ public class DefaultParser implements IParserWrapper {
 	 * @throws IOException
 	 */
 	public void process() throws IOException {
+		logger.trace("Process file: '{}'.", file.toString());
 		LineReader reader = new LineReader( new FileReader(file));
 		reader.setParams(new HashMap<String, String>());
 		reader.getParams().put("filename", file.getAbsolutePath());
