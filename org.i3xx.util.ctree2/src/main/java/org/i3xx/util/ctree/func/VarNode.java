@@ -18,7 +18,7 @@ public class VarNode implements IVarNode {
 	protected IVarNode right;
 	protected boolean comment;
 	
-	public static enum OP {REPLACE, LINK}
+	public static enum OP {REPLACE, SHIFT, LINK}
 	
 	/**
 	 * 
@@ -46,6 +46,8 @@ public class VarNode implements IVarNode {
 		
 		switch(op){
 		case REPLACE:
+			return true;
+		case SHIFT:
 			return true;
 			default:
 				return false;
@@ -159,6 +161,8 @@ public class VarNode implements IVarNode {
 		switch(op){
 		case LINK:
 			return left.toString() + OP_LINK + right.toString();
+		case SHIFT:
+			return right.toString();
 		case REPLACE:
 			return right.toString();
 			default:
@@ -215,6 +219,14 @@ public class VarNode implements IVarNode {
 		//unary operators
 		if( value.contains(IVarNode.OP_REPLACE) ){
 			setOp(VarNode.OP.REPLACE);
+			addRight().setValue( value );
+			
+			value = null;
+		}else
+		
+		//unary operators
+		if( value.contains(IVarNode.OP_SHIFT) ){
+			setOp(VarNode.OP.SHIFT);
 			addRight().setValue( value );
 			
 			value = null;

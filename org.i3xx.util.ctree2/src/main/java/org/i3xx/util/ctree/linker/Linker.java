@@ -10,6 +10,7 @@ import org.i3xx.util.ctree.core.IVisitor;
 import org.i3xx.util.ctree.func.IResolver;
 import org.i3xx.util.ctree.func.IVarNode;
 import org.i3xx.util.ctree.func.LinkResolver;
+import org.i3xx.util.ctree.func.ShiftResolver;
 import org.i3xx.util.ctree.func.VarNode;
 import org.i3xx.util.ctree.func.WildcardResolver;
 import org.i3xx.util.ctree.impl.LinkableResolverFactory;
@@ -98,8 +99,11 @@ public class Linker extends VisitorWalker<IConfNode> {
 				vnode.resolve(resolverA);
 				//resolver.resolved();
 				
-				IResolver resolverB = new LinkResolver(node, copies);
+				IResolver resolverB = new ShiftResolver(path);
 				vnode.resolve(resolverB);
+				
+				IResolver resolverC = new LinkResolver(node, copies);
+				vnode.resolve(resolverC);
 				//
 				
 				//The copies of the link resolver must be processed
@@ -118,6 +122,10 @@ public class Linker extends VisitorWalker<IConfNode> {
 					if(logger.isDebugEnabled())
 						logger.debug("Visit string-item (wild) node:{}, text:{}", path, values[i].toString());
 				}else if(resolverB.resolved()){
+					values[i] = new StringItem(path);
+					if(logger.isDebugEnabled())
+						logger.debug("Visit string-item (shift) node:{}, text:{}", path, values[i].toString());
+				}else if(resolverC.resolved()){
 					values[i] = new StringItem(path);
 					if(logger.isDebugEnabled())
 						logger.debug("Visit string-item (link) node:{}, text:{}", path, values[i].toString());

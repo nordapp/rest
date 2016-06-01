@@ -6,6 +6,7 @@ public interface IVarNode {
 	
 	public static final String OP_LINK = "->";
 	public static final String OP_REPLACE = "*";
+	public static final String OP_SHIFT = "{"; //only matches the occurrence, no full match necessary
 	
 	/**
 	 * @return Returns true if a node is a leaf node
