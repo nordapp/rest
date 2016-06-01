@@ -54,6 +54,10 @@ public class KeyValueRuleProcessLine extends AbstractKeyValueRule {
 		//Convert text/xml to text/plain
 		logger.trace("Add to configuration key:{}, value:{}", key, param);
 		
+		//this happens 01.06.2016
+		if(key.equals(""))
+			return;
+		
 		//Insert to confTree
 		IConfNode node = root.create(key);
 		node.value( param );
