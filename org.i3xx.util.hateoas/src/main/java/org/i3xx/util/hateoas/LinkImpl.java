@@ -26,9 +26,11 @@ public class LinkImpl implements LinkHeader.Link {
 	 * 
 	 * @param link The data to parse
 	 */
-	public LinkImpl(String link) {
+	public LinkImpl(String link) throws IllegalArgumentException {
 		this();
-		parseData(link);
+		int r = parseData(link);
+		if(r==1)
+			throw new IllegalArgumentException("The link is not set properly ("+link+").");
 	}
 	
 	/**
