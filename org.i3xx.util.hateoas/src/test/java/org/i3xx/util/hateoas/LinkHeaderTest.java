@@ -59,4 +59,12 @@ public class LinkHeaderTest {
 		assertEquals(list.get(1).toString(), "<http://test456.com/next>; rel=\"next\"");
 	}
 
+	@Test
+	public void testC() {
+		LinkImpl link = new LinkImpl("<http://test456.com/self>; rel=\"self\"");
+		assertEquals( link.toString(), "<http://test456.com/self>; rel=\"self\"");
+		
+		link.parameterize("mykey", "myvalue");
+	}
+
 }
