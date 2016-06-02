@@ -49,8 +49,8 @@ public final class FinalConfNode implements IConfNode, Serializable {
 	 */
 	protected FinalConfNode(IConfNode node, IConfNode parent) throws ResolverException {
 		
-		this.root = node.root();
-		this.parent = node.parent();
+		this.root = parent==null ? this : parent.root();
+		this.parent = parent;
 		this.name = node.name();
 		this.value = node.rawValue();
 		this.resolved = true;
