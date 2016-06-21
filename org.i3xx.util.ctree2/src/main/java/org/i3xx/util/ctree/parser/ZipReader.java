@@ -24,7 +24,6 @@ public class ZipReader extends AbstractLineReader {
 	 * The file is closed manually
 	 * @see org.i3xx.util.ctree.parser.KeyValueRuleIncludeA
 	 */
-	@SuppressWarnings("resource")
 	@Override
 	public boolean available() throws IOException {
 		if(in==null){

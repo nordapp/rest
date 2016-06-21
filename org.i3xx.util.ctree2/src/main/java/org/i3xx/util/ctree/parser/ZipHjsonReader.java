@@ -26,7 +26,6 @@ public class ZipHjsonReader extends AbstractElementReader {
 	 * The file is closed manually
 	 * @see org.i3xx.util.ctree.parser.KeyValueRuleIncludeA
 	 */
-	@SuppressWarnings("resource")
 	public boolean available() throws IOException {
 		if(!init){
 			init = true;
