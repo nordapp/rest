@@ -5,6 +5,7 @@ public class InputImpl implements Input {
 	/**  */
 	private final Object elem;
 	
+	/**  */
 	private final InputFx func;
 	
 	public InputImpl(Object elem) {

@@ -47,10 +47,21 @@ public class Process {
 	}
 	
 	/**
+	 * Sets the (initial) input
+	 * 
 	 * @return
 	 */
 	public Process input(InputFx func) {
 		return new Process(action, new InputImpl(func), result, exception, attributes);
+	}
+	
+	/**
+	 * Sets the (initial) result
+	 * 
+	 * @return
+	 */
+	public Process result(ResultFx func) {
+		return new Process(action, input, new ResultImpl(func), exception, attributes);
 	}
 	
 	/**
@@ -214,6 +225,11 @@ public class Process {
 	
 	/**
 	 * Executes the action
+	 * 
+	 * A NullPointerException occurs if there is an access to the result
+	 * for the first time without setting the initial result. The filter
+	 * uses c.r() or c.getResult() and for the first time the result is
+	 * set to null. To set an initial result use result(()-><value>).
 	 * 
 	 * @param filter
 	 * @return

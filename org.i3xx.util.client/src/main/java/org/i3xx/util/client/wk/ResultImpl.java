@@ -5,8 +5,16 @@ public class ResultImpl implements Result {
 	/**  */
 	private final Object elem;
 	
+	private final ResultFx func;
+	
 	public ResultImpl(Object elem) {
 		this.elem = elem;
+		this.func = null;
+	}
+	
+	public ResultImpl(ResultFx func) {
+		this.elem = null;
+		this.func = func;
 	}
 	
 	/**  */
@@ -19,7 +27,7 @@ public class ResultImpl implements Result {
 	public boolean isString(){ return elem instanceof String; }
 	
 	/**  */
-	public Object getResult() {	return elem; }
+	public Object getResult() {	return func==null ? elem : func.getResult(); }
 	
 	/**  */
 	public String getAsString() { return elem==null ? null : elem.toString(); }

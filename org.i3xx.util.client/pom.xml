@@ -73,10 +73,10 @@
 		   </configuration>
     	</plugin>
 		
-		<plugin>
+		<!-- <plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>versions-maven-plugin</artifactId>
-		</plugin>
+		</plugin>-->
 		
 		<plugin>
 		   <groupId>org.sonatype.plugins</groupId>
