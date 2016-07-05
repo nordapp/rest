@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Process {
-
+	
 	final Action action;
 	final Input input;
 	final Result result;
@@ -247,4 +247,6 @@ public class Process {
 		
 		return op;
 	}
+	
+	
 }
