@@ -21,7 +21,7 @@ public class CloudRegInfo {
 	private String host;
 	
 	/**  */
-	private InetAddress addr;
+	private InetAddress[] addr;
 	
 	/**
 	 * @param domain
@@ -47,7 +47,7 @@ public class CloudRegInfo {
 			while(host.endsWith("."))
 				host = host.substring(0, host.length()-1);
 			
-			addr = InetAddress.getByName(host);
+			addr = InetAddress.getAllByName(host);
 		}else{
 			throw new NoSuchElementException("The service 'cloudreg._tcp."+domain+"' is not available in the DNS.");
 		}
@@ -69,9 +69,9 @@ public class CloudRegInfo {
 	}
 	
 	/**
-	 * @return the address
+	 * @return the addresses
 	 */
-	public InetAddress getAddr() {
+	public InetAddress[] getAddr() {
 		return addr;
 	}
 }
