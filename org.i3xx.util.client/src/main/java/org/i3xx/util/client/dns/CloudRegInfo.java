@@ -15,13 +15,13 @@ import org.xbill.DNS.Type;
 public class CloudRegInfo {
 	
 	/**  */
-	private int port;
+	private int[] port;
 	
 	/**  */
-	private String host;
+	private String[] host;
 	
 	/**  */
-	private InetAddress[] addr;
+	private InetAddress[][] addr;
 	
 	/**
 	 * @param domain
@@ -38,16 +38,23 @@ public class CloudRegInfo {
 		Record[] answers = lookup.getAnswers();
 		
 		if(answers!=null && answers.length!=0) {
-			Record r = answers[0];
-			SRVRecord srv = (SRVRecord)r;
+			port = new int[answers.length];
+			host = new String[answers.length];
+			addr = new InetAddress[answers.length][];
 			
-			port = srv.getPort();
-			host = srv.getTarget().toString();
-			
-			while(host.endsWith("."))
-				host = host.substring(0, host.length()-1);
-			
-			addr = InetAddress.getAllByName(host);
+			for(int i=0;i<answers.length;i++) {
+				Record r = answers[0];
+				SRVRecord srv = (SRVRecord)r;
+				
+				port[i] = srv.getPort();
+				String h = srv.getTarget().toString();
+				
+				while(h.endsWith("."))
+					h = h.substring(0, h.length()-1);
+				
+				host[i] = h;
+				addr[i] = InetAddress.getAllByName(h);
+			}//for
 		}else{
 			throw new NoSuchElementException("The service 'cloudreg._tcp."+domain+"' is not available in the DNS.");
 		}
@@ -57,21 +64,21 @@ public class CloudRegInfo {
 	/**
 	 * @return the port
 	 */
-	public int getPort() {
+	public int[] getPort() {
 		return port;
 	}
 
 	/**
 	 * @return the host
 	 */
-	public String getHost() {
+	public String[] getHost() {
 		return host;
 	}
 	
 	/**
 	 * @return the addresses
 	 */
-	public InetAddress[] getAddr() {
+	public InetAddress[][] getAddr() {
 		return addr;
 	}
 }
