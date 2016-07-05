@@ -14,11 +14,13 @@ import org.i3xx.util.basic.core.ITimer;
 public class Timer implements Runnable {
 	
 	private volatile boolean cont;
-	private List<ITimer> list;
+	private final List<ITimer> list;
+	private final int resolution;
 	
-	private Timer() {
-		cont = true;
-		list = new ArrayList<ITimer>();
+	private Timer(int resolution) {
+		this.cont = true;
+		this.list = new ArrayList<ITimer>();
+		this.resolution = resolution;
 	}
 	
 	public void addTimer(ITimer timer) {
@@ -79,7 +81,7 @@ public class Timer implements Runnable {
 			}
 			
 			try{
-				Thread.sleep(1000);
+				Thread.sleep(resolution);
 			}catch(InterruptedException e) {
 				//does nothing
 			}
@@ -92,7 +94,7 @@ public class Timer implements Runnable {
 				}//fi
 			}//for
 		}
-		list = null;
+		//list = null;
 		
 		//restartable
 		Timer.timer = null;
@@ -100,9 +102,19 @@ public class Timer implements Runnable {
 	
 	private static Timer timer = null;
 	
-	public static Timer instance(){
+	/**
+	 * @return The timer with the default resolution of 1000ms
+	 */
+	public static Timer instance() { return instance(1000); }
+	
+	/**
+	 * Creates a Timer
+	 * @param resolution The resolution of the timer (the interval)
+	 * @return The timer
+	 */
+	public static Timer instance(int resolution){
 		if(timer==null) {
-			timer = new Timer();
+			timer = new Timer(resolution);
 			Thread t = new Thread(timer);
 			t.start();
 		}
