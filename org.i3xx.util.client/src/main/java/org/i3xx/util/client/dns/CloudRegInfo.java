@@ -2,7 +2,6 @@ package org.i3xx.util.client.dns;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.NoSuchElementException;
 
 import org.xbill.DNS.DClass;
 import org.xbill.DNS.Lookup;
@@ -27,9 +26,8 @@ public class CloudRegInfo {
 	 * @param domain
 	 * @throws TextParseException
 	 * @throws UnknownHostException
-	 * @throws NoSuchElementException
 	 */
-	public CloudRegInfo(String domain) throws TextParseException, UnknownHostException, NoSuchElementException {
+	public CloudRegInfo(String domain) throws TextParseException, UnknownHostException {
 		
 		Lookup lookup = new Lookup("_cloudreg._tcp."+domain, Type.SRV, DClass.IN);
 		lookup.setResolver(new SimpleResolver());
@@ -56,7 +54,10 @@ public class CloudRegInfo {
 				addr[i] = InetAddress.getAllByName(h);
 			}//for
 		}else{
-			throw new NoSuchElementException("The service 'cloudreg._tcp."+domain+"' is not available in the DNS.");
+			port = new int[0];
+			host = new String[0];
+			addr = new InetAddress[0][0];
+			//throw new NoSuchElementException("The service 'cloudreg._tcp."+domain+"' is not available in the DNS.");
 		}
 		
 	}
