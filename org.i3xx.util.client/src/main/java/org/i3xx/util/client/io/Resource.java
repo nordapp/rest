@@ -158,7 +158,7 @@ public class Resource {
 		
 		HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		con.setDoOutput( output!=null );
-		con.setDoInput( input!=null );
+		con.setDoInput( input!=null || (input==null && output==null) );
 		con.setInstanceFollowRedirects(false);
 		con.setRequestMethod(method);
 		for(int i=0;i<tuples.length-1;i+=2) {
