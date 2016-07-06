@@ -15,13 +15,13 @@ import org.xbill.DNS.Type;
 public class CloudRegInfo {
 	
 	/**  */
-	private int[] port;
+	private final int[] port;
 	
 	/**  */
-	private String[] host;
+	private final String[] host;
 	
 	/**  */
-	private InetAddress[][] addr;
+	private final InetAddress[][] addr;
 	
 	/**
 	 * @param domain
@@ -60,25 +60,35 @@ public class CloudRegInfo {
 		}
 		
 	}
-
+	
 	/**
-	 * @return the port
+	 * @return The number of records
 	 */
-	public int[] getPort() {
-		return port;
-	}
-
-	/**
-	 * @return the host
-	 */
-	public String[] getHost() {
-		return host;
+	public int length() {
+		return host.length;
 	}
 	
 	/**
+	 * @param i the index of the record (0 to length-1)
+	 * @return the port
+	 */
+	public int getPort(int i) {
+		return port[i];
+	}
+
+	/**
+	 * @param i the index of the record (0 to length-1)
+	 * @return the host
+	 */
+	public String getHost(int i) {
+		return host[i];
+	}
+	
+	/**
+	 * @param i the index of the record (0 to length-1)
 	 * @return the addresses
 	 */
-	public InetAddress[][] getAddr() {
-		return addr;
+	public InetAddress[] getAddr(int i) {
+		return addr[i];
 	}
 }
