@@ -84,7 +84,7 @@ public class Resource {
 	/**
 	 * @return
 	 */
-	public Resource stringResult() {
+	public Resource setStringResult() {
 		this.input = new InputStreamHandler() {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
@@ -103,7 +103,7 @@ public class Resource {
 	/**
 	 * @return
 	 */
-	public Resource jsonResult() {
+	public Resource setJsonResult() {
 		this.input = new InputStreamHandler() {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
@@ -273,4 +273,25 @@ public class Resource {
 		return elem;
 	}
 	
+	/**
+	 * Macro: setJsonResult().operate().toJsonResult()
+	 * @throws IOException 
+	 */
+	public JsonResult processJson() throws IOException {
+		if(input!=null || output!=null)
+			throw new IllegalStateException("The macro must be the only operation of the resource.");
+		
+		return setJsonResult().operate().toJsonResult();
+	}
+	
+	/**
+	 * Macro: setStringResult().operate().result()
+	 * @throws IOException 
+	 */
+	public Result processString() throws IOException {
+		if(input!=null || output!=null)
+			throw new IllegalStateException("The macro must be the only operation of the resource.");
+		
+		return setStringResult().operate().result();
+	}
 }
