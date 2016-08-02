@@ -18,6 +18,11 @@ public class JsonResultImpl extends ResultImpl implements JsonResult {
 		this.elem = elem;
 	}
 	
+	protected JsonResultImpl(JsonElement elem, int returnCode) {
+		super(returnCode);
+		this.elem = elem;
+	}
+	
 	/**
 	 * @return
 	 */

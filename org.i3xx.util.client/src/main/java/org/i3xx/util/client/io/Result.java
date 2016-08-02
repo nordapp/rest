@@ -44,4 +44,8 @@ public interface Result {
 	 */
 	JsonResult toJsonResult();
 
+	/**
+	 * @return
+	 */
+	int getReturnCode();
 }

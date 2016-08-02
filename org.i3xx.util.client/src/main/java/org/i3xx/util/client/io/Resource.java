@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import org.i3xx.util.mutable.MutableInt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,8 @@ public class Resource {
 	}
 	
 	/**  */
+	private final MutableInt retCode;
+	/**  */
 	private URL url;
 	/**  */
 	private InputStreamHandler input;
@@ -75,6 +78,7 @@ public class Resource {
 		this.input = null;
 		this.output = null;
 		this.result = null;
+		this.retCode = new MutableInt(-1);
 	}
 	
 	/**
@@ -85,7 +89,7 @@ public class Resource {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
 				final String r = resource.readToString(in, Charset.defaultCharset().toString());
-				resource.result = new ResultImpl() {
+				resource.result = new ResultImpl(retCode.intValue()) {
 					@Override
 					public Object getResult() {
 						return r;
@@ -104,7 +108,7 @@ public class Resource {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
 				final JsonElement r = resource.readToJson(in);
-				resource.result = new ResultImpl() {
+				resource.result = new ResultImpl(retCode.intValue()) {
 					@Override
 					public Object getResult() {
 						return r;
@@ -120,7 +124,7 @@ public class Resource {
 	 * @return
 	 */
 	public Resource externResult(final Object result) {
-		this.result = new ResultImpl(){
+		this.result = new ResultImpl(retCode.intValue()){
 
 			@Override
 			public Object getResult() {
@@ -177,12 +181,12 @@ public class Resource {
 				output.stream( this, con.getOutputStream() );
 			
 			//If not string result or json result is set.
-			final int rc = con.getResponseCode();
+			retCode.intValue( con.getResponseCode() );
 			if(result==null){
 				//result = () -> new Integer(rc);
 				result = new ResultImpl(){
 					@Override
-					public Object getResult() { return new Integer(rc); }
+					public Object getResult() { return new Integer(retCode.intValue()); }
 				};
 			}
 		}catch(IOException e) {
@@ -221,7 +225,7 @@ public class Resource {
 	 * @return
 	 */
 	public JsonResult toJsonResult() {
-		return result==null ? new JsonResultImpl(null) : result.toJsonResult();
+		return result==null ? new JsonResultImpl(null, retCode.intValue()) : result.toJsonResult();
 	}
 	
 	/**

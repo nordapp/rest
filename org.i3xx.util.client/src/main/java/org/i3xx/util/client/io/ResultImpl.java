@@ -6,10 +6,26 @@ import com.google.gson.JsonPrimitive;
 
 public abstract class ResultImpl implements Result {
 	
+	private final int returnCode;
+	
 	/* (non-Javadoc)
 	 * @see com.i3xx.ob4.statistic.prj01.client.Resource.Result#getResult()
 	 */
 	public abstract Object getResult();
+	
+	/**
+	 * 
+	 */
+	public ResultImpl() {
+		returnCode = -1;
+	}
+	
+	/**
+	 * @param returnCode
+	 */
+	public ResultImpl(int returnCode) {
+		this.returnCode = returnCode;
+	}
 	
 	/**
 	 * @return
@@ -69,7 +85,7 @@ public abstract class ResultImpl implements Result {
 	 * @return
 	 */
 	public JsonResult toJsonResult() {
-		return new JsonResultImpl(toJson());
+		return new JsonResultImpl(toJson(), getReturnCode());
 	}
 	
 	/* (non-Javadoc)
@@ -79,5 +95,11 @@ public abstract class ResultImpl implements Result {
 		Object obj = getResult();
 		return obj==null ? (String)obj : obj.toString();
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see org.i3xx.util.client.io.Result#getReturnCode()
+	 */
+	public int getReturnCode() {
+		return returnCode;
+	}
 }
