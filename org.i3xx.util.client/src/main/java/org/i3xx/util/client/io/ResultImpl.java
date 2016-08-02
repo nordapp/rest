@@ -1,12 +1,14 @@
 package org.i3xx.util.client.io;
 
+import org.i3xx.util.mutable.MutableInt;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
 public abstract class ResultImpl implements Result {
 	
-	private final int returnCode;
+	private final MutableInt returnCode;
 	
 	/* (non-Javadoc)
 	 * @see com.i3xx.ob4.statistic.prj01.client.Resource.Result#getResult()
@@ -17,13 +19,13 @@ public abstract class ResultImpl implements Result {
 	 * 
 	 */
 	public ResultImpl() {
-		returnCode = -1;
+		returnCode = new MutableInt(-1);
 	}
 	
 	/**
 	 * @param returnCode
 	 */
-	public ResultImpl(int returnCode) {
+	public ResultImpl(MutableInt returnCode) {
 		this.returnCode = returnCode;
 	}
 	
@@ -85,7 +87,7 @@ public abstract class ResultImpl implements Result {
 	 * @return
 	 */
 	public JsonResult toJsonResult() {
-		return new JsonResultImpl(toJson(), getReturnCode());
+		return new JsonResultImpl(toJson(), returnCode);
 	}
 	
 	/* (non-Javadoc)
@@ -100,6 +102,6 @@ public abstract class ResultImpl implements Result {
 	 * @see org.i3xx.util.client.io.Result#getReturnCode()
 	 */
 	public int getReturnCode() {
-		return returnCode;
+		return returnCode.intValue();
 	}
 }

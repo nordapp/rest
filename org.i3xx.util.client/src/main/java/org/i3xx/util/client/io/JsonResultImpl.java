@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.i3xx.util.mutable.MutableInt;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,7 +20,7 @@ public class JsonResultImpl extends ResultImpl implements JsonResult {
 		this.elem = elem;
 	}
 	
-	protected JsonResultImpl(JsonElement elem, int returnCode) {
+	protected JsonResultImpl(JsonElement elem, MutableInt returnCode) {
 		super(returnCode);
 		this.elem = elem;
 	}

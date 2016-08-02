@@ -89,7 +89,7 @@ public class Resource {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
 				final String r = resource.readToString(in, Charset.defaultCharset().toString());
-				resource.result = new ResultImpl(retCode.intValue()) {
+				resource.result = new ResultImpl(retCode) {
 					@Override
 					public Object getResult() {
 						return r;
@@ -108,7 +108,7 @@ public class Resource {
 			@Override
 			public void stream(Resource resource, InputStream in) throws IOException {
 				final JsonElement r = resource.readToJson(in);
-				resource.result = new ResultImpl(retCode.intValue()) {
+				resource.result = new ResultImpl(retCode) {
 					@Override
 					public Object getResult() {
 						return r;
@@ -124,7 +124,7 @@ public class Resource {
 	 * @return
 	 */
 	public Resource externResult(final Object result) {
-		this.result = new ResultImpl(retCode.intValue()){
+		this.result = new ResultImpl(retCode){
 
 			@Override
 			public Object getResult() {
@@ -225,7 +225,7 @@ public class Resource {
 	 * @return
 	 */
 	public JsonResult toJsonResult() {
-		return result==null ? new JsonResultImpl(null, retCode.intValue()) : result.toJsonResult();
+		return result==null ? new JsonResultImpl(null, retCode) : result.toJsonResult();
 	}
 	
 	/**
