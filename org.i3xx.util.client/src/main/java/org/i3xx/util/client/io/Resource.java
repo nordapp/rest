@@ -182,9 +182,10 @@ public class Resource {
 			
 			//If not string result or json result is set.
 			retCode.intValue( con.getResponseCode() );
+			logger.trace("Return code: {}", retCode.intValue());
 			if(result==null){
 				//result = () -> new Integer(rc);
-				result = new ResultImpl(){
+				result = new ResultImpl(retCode){
 					@Override
 					public Object getResult() { return new Integer(retCode.intValue()); }
 				};
