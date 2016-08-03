@@ -6,4 +6,4 @@ set parent=%parent:~0,-1%
 
 rem Start the microservice
 shift
-start "%name%" "%parent%\start-up.cmd" -b dev6.ids-dialogsysteme.net
+start "%name%" "%parent%\start-up.cmd" -b 192.168.214.146
