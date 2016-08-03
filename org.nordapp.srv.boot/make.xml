@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<project name="org.nordapp.srv.boot" default="main" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property environment="env" />
+	<property name="java" location="${env.ProgramFiles}/Java/jdk1.8.0_45"/>
+	<property name="home" location="./.."/>
+	<!--
+	<property name="home" location="${eclipse.home}/workspace"/>
+	-->
+	<path id="classpath">
+		<pathelement path="${java}/jre/lib/rt.jar" />
+		<pathelement path="${java}/lib/tools.jar" />
+	</path>
+
+	<target name="main">
+		<antcall target="makeJar"/>
+	</target>
+
+	<!--
+	 ! Make Jar Files
+	 !-->
+	<target name="makeJar">
+		
+		<jar destfile="./root/main/${ant.project.name}.jar">
+			<manifest>
+				<attribute name="Main-Class" value="${ant.project.name}.impl.Main" />
+			</manifest>
+			<fileset dir="./bin/java/bin"><include name="**/*.class" /></fileset>
+			<fileset dir="./src/main/resources">
+				<include name="**/*.properties" />
+				<include name="**/*.txt" />
+			</fileset>
+			<fileset dir="./"><include name="LICENSE/**/*.*" /></fileset>
+		</jar>
+	</target>
+
+</project>

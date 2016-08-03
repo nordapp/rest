@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<project name="org.nordapp.srv.boot" default="main" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property environment="env" />
+	<property name="java" location="${env.ProgramFiles}/Java/jdk1.8.0_45"/>
+	<property name="home" location="./.."/>
+	<!--
+	<property name="home" location="${eclipse.home}/workspace"/>
+	-->
+	<path id="classpath">
+		<pathelement path="${java}/jre/lib/rt.jar" />
+		<pathelement path="${java}/lib/tools.jar" />
+	</path>
+
+	<target name="main">
+		<antcall target="makeJar"/>
+	</target>
+
+	<!--
+	 ! Make Jar Files
+	 !-->
+	<target name="makeJar">
+		<unjar src="./root/one-jar-boot-0.97.jar" dest="./root" />
+		<delete dir="./root/src" />
+		<!--Manifest ergänzen -->
+		<echo file="./root/boot-manifest.mf" append="true">One-Jar-Main-Class: ${ant.project.name}.impl.Main</echo>	
+
+		<jar destfile="${ant.project.name}.jar" manifest="./root/boot-manifest.mf">
+			<fileset dir="./root"><include name="**/*.*" /></fileset>
+		</jar>
+	</target>
+
+</project>

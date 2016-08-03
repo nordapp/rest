@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<project name="org.nordapp.srv.boot" default="main" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property environment="env" />
+	<property name="java" location="${env.ProgramFiles}/Java/jdk1.8.0_45"/>
+	<property name="home" location="./.."/>
+	<!--
+	<property name="home" location="${eclipse.home}/workspace"/>
+	-->
+	<path id="classpath">
+		<pathelement path="${java}/jre/lib/rt.jar" />
+		<pathelement path="${java}/lib/tools.jar" />
+	</path>
+
+	<target name="main">
+		<antcall target="makeJar"/>
+	</target>
+
+	<!--
+	 ! Make Jar Files
+	 !-->
+	<target name="makeJar">
+		<delete file="./${ant.project.name}-deploy.zip" />
+		<zip destfile="./${ant.project.name}-deploy.zip">
+			<fileset dir=".">
+				<include name="${ant.project.name}.jar" />
+				<include name="Log4j.properties" />
+				<include name="run-loop.cmd" />
+				<include name="run-once.cmd" />
+				<include name="start-up.cmd" />
+				<include name="find-java.cmd" />
+				<include name="API.txt" />
+			</fileset>
+			<fileset dir="./src/main/resources"><include name="Log4j.properties" /></fileset>
+			<fileset dir="./"><include name="LICENSE/**/*.*" /></fileset>
+		</zip>
+	</target>
+
+</project>
