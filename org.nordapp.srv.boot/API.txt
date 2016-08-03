@@ -1,0 +1,43 @@
+The project provides a cloud service that can be used to read Arduino Uno(C) sketches from.
+
+The binary files must be places in the directory 'boot' in the home path.
+
+A. The REST API
+
+1. Shutdown the registry service
+
+	Request
+			http://localhost:8085/boot/shutdown
+	Response
+	
+2. Gets a binary resource file (sketch)
+	
+	Parameter:
+			<product> : The name of the product must be 'arduino'
+			<type>    : The type must be 'uno'
+			<version> : The name of the file (alphanumeric chars without a dot or an underscore recommended)
+
+	Request:
+			http://localhost:8085/boot/get/arduino/uno/<file>
+	Response:
+			The content of the file as octet-stream
+			
+	If the version is 'show' than the data is returned as a JSON String.
+	
+	Request:
+			http://localhost:8085/boot/get/arduino/uno/show
+	Response:
+			{
+			  "product": "arduino",
+			  "type": "uno",
+			  "version": "show"
+			}
+
+3. Info of the service
+
+	Request:
+			http://localhost:8085/boot/info
+	Response:
+			{"app-state":200}
+
+
