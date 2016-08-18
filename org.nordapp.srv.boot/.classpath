@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_45"/>
-	<classpathentry kind="lib" path="lib/com.i3xx.cloud.http-2016-06-21.jar"/>
+	<classpathentry kind="lib" path="lib/com.i3xx.cloud.http-2016-06-21.jar" sourcepath="/com.i3xx.cloud.http"/>
 	<classpathentry kind="lib" path="lib/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/nanohttpd-2.1.1.jar"/>
