@@ -1,9 +1,9 @@
+org\i3xx\util\dbinfoapi\impl\CollectionInfo.class
 org\i3xx\util\dbinfoapi\impl\FieldInfo.class
 org\i3xx\util\dbinfoapi\impl\AttributeInfo.class
-org\i3xx\util\dbinfoapi\core\IDbSelector.class
-org\i3xx\util\dbinfoapi\impl\CollectionInfo.class
-org\i3xx\util\dbinfoapi\core\ICollection.class
 org\i3xx\util\dbinfoapi\core\IDatabase.class
-org\i3xx\util\dbinfoapi\core\IField.class
-org\i3xx\util\dbinfoapi\impl\DatabaseInfo.class
+org\i3xx\util\dbinfoapi\core\IDbSelector.class
 org\i3xx\util\dbinfoapi\core\IAttribute.class
+org\i3xx\util\dbinfoapi\core\ICollection.class
+org\i3xx\util\dbinfoapi\impl\DatabaseInfo.class
+org\i3xx\util\dbinfoapi\core\IField.class
