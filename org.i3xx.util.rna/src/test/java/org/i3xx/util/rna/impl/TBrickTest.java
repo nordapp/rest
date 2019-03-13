@@ -1,33 +1,11 @@
 package org.i3xx.util.rna.impl;
 
-import org.apache.commons.jcs.JCS;
-import org.apache.commons.jcs.access.CacheAccess;
 import org.i3xx.util.rna.core.IBrick;
 import org.i3xx.util.rna.engine.server.CIdentifier;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TBrickTest {
-	
-	@SuppressWarnings("unused")
-	private static CacheAccess<String, Object> cache = null;
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		cache = JCS.getInstance( "default" );
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-	
-	@Before
-	public void setUp() throws Exception {
-		cache = JCS.getInstance( "default" );
-	}
 
 	@After
 	public void tearDown() throws Exception {

@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <name>NordApp OfficeBase :: RNA</name>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <description>Provides computed RNA support.</description>
   
   <licenses>
@@ -16,13 +16,6 @@
       <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
-  
-  <parent>
-  	<relativePath>../parent-rest-project</relativePath>
-    <groupId>org.i3xx.parent</groupId>
-    <artifactId>parent-rest-project</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-  </parent>
   
   <properties>
   	<project.inceptionYear>2015</project.inceptionYear>
@@ -35,74 +28,30 @@
   
   <build>
 	<plugins>
+	
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.5.1</version>
 			<configuration>
 				<target>1.7</target>
 				<source>1.7</source>
 			</configuration>
 		</plugin>
-		
+        
 		<plugin>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>maven-bundle-plugin</artifactId>
-			<version>2.3.7</version>
-			<extensions>true</extensions>
-			<configuration>
-				<instructions>
-				
-					<Bundle-Activator />
-					<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-					<Bundle-Name>${project.name}</Bundle-Name>
-					<Bundle-Version>${project.version}</Bundle-Version>
-					
-					<Export-Package>
-						<!--org.i3xx.util.rna,-->
-						org.i3xx.util.rna.core,
-						org.i3xx.util.rna.engine.json,
-						org.i3xx.util.rna.engine.server,
-						org.i3xx.util.rna.engine,
-						org.i3xx.util.rna.impl,
-					</Export-Package>
-					<Import-Package>
-						com.google.gson,
-						org.apache.commons.codec.binary,
-						org.slf4j,
-					</Import-Package>
-					<Private-Package />
-				</instructions>
-			</configuration>
+		   <groupId>org.sonatype.plugins</groupId>
+		   <artifactId>nexus-staging-maven-plugin</artifactId>
+		   <version>1.6.3</version>
+		   <extensions>true</extensions>
+		   <configuration>
+		   	 <serverId>ossrh</serverId>
+		   	 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+		   	 <autoReleaseAfterClose>true</autoReleaseAfterClose>
+		   </configuration>
 		</plugin>
 		
 	</plugins>
-	
-  	<resources>
-  		<!--<resource>
-  			<directory></directory>
-  			<includes>
-  				<include>OSGI-INF/**/*.*</include>
-  			</includes>
-  		</resource>-->
-  		<!--<resource>
-  			<directory></directory>
-  			<includes>
-  				<include>LICENSE/**/*.*</include>
-  			</includes>
-  		</resource>-->
-  		<resource>
-  			<directory>src/main/resources</directory>
-  			<includes>
-  				<include>/**/*.*</include>
-  			</includes>
-  		</resource>
-  		<resource>
-  			<directory></directory>
-  			<includes>
-  				<include>Usage.txt</include>
-  			</includes>
-  		</resource>
-  	</resources>
   </build>
 
   <dependencies>
@@ -110,34 +59,127 @@
 	<dependency>
 		<groupId>commons-codec</groupId>
 		<artifactId>commons-codec</artifactId>
+		<version>1.4</version>
 	</dependency>
+	<!-- 
 	<dependency>
 		<groupId>org.apache.commons</groupId>
 		<artifactId>commons-jcs-core</artifactId>
+		<version>2.0-beta-1</version>
 	</dependency>
+	 -->
     
 	<dependency>
 		<groupId>com.google.code.gson</groupId>
 		<artifactId>gson</artifactId>
+		<version>2.3.1</version>
 	</dependency>
 	
+	
+	<!-- Logging -->
 	<dependency>
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
 	</dependency>
 	<dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-api</artifactId>
+		<version>1.7.5</version>
 	</dependency>
 	<dependency>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-log4j12</artifactId>
+		<version>1.7.5</version>
 	</dependency>
   	
     <dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
+	      <version>4.12</version>
 	    <scope>test</scope>
     </dependency>
   </dependencies>
+    
+  <distributionManagement>
+	<snapshotRepository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	</snapshotRepository>
+    <repository>
+		<id>ossrh</id>
+		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	</repository>
+	
+  </distributionManagement>
+  
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      
+      <build>
+        <plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<organizationName>${project.organizationName}</organizationName>
+					<inceptionYear>${project.inceptionYear}</inceptionYear>
+					<projectName>${project.name}</projectName>
+					<licenseName>apache_v2</licenseName>
+				</configuration>
+				<executions>
+					<execution>
+						<id>update-project-license</id>
+						<goals>
+							<goal>update-project-license</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>update-file-header</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<roots>
+								<root>src/main/java</root>
+								<root>src/test/java</root>
+							</roots>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-licenses</id>
+						<goals>
+							<goal>download-licenses</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+        
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-gpg-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>sign-artifacts</id>
+			      <phase>verify</phase>
+			      <goals>
+			        <goal>sign</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
 </project>
